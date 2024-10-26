@@ -1,0 +1,25 @@
+<h1><%= @product.name %></h1>
+<p><%= @product.description %></p>
+<p>Price: $<%= @product.price %></p>
+<div>
+  <%= image_tag @product.image %>
+</div>
+
+<h2>Comments</h2>
+<div id="comments">
+  <% @product.comments.each do |comment| %>
+    <div class="comment">
+      <p><strong><%= comment.user&.username || 'Anonymous' %>:</strong></p>
+      <p><%= comment.content %></p>
+    </div>
+  <% end %>
+</div>
+
+<h3>Add a Comment:</h3>
+<%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: "form-control" %>
+  </div>
+  <%= form.submit "Post Comment", class: "btn btn-primary" %>
+<% end %>
