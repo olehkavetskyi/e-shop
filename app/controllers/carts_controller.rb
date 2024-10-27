@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  before_action :authenticate_user!  # Ensure only logged-in users can access the cart
+  before_action :authenticate_user!
 
   def show
     @cart = current_user.cart

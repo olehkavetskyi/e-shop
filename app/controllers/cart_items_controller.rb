@@ -22,8 +22,16 @@ class CartItemsController < ApplicationController
 
   def update
     @cart_item = @cart.cart_items.find(params[:id])
-    @cart_item.update(quantity: params[:quantity])
-    redirect_to cart_path(@cart), notice: 'Cart updated.'
+
+    # Update quantity only if it's greater than 0
+    new_quantity = params[:quantity].to_i
+    if new_quantity > 0
+      @cart_item.update(quantity: new_quantity)
+      redirect_to cart_path(@cart), notice: 'Cart updated.'
+    else
+      @cart_item.destroy
+      redirect_to cart_path(@cart), notice: 'Item removed from cart.'
+    end
   end
 
   private

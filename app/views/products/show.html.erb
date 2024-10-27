@@ -1,36 +1,102 @@
-<h1 class="product-title"><%= @product.name %></h1>
-<p class="product-description"><%= @product.description %></p>
-<p class="product-price">Price: $<%= @product.price %></p>
-<div class="product-image">
-  <%= image_tag @product.image, alt: @product.name if @product.image.attached? %>
-</div>
-
-<h2>Comments</h2>
-<div id="comments" class="comments-section">
-  <% if @product.comments.any? %>
-    <% @product.comments.each do |comment| %>
-      <div class="comment-box">
-        <div class="comment-user">
-          <strong><%= comment.user&.username || 'Anonymous' %>:</strong>
-        </div>
-        <div class="comment-content">
-          <p><%= comment.content %></p>
-        </div>
-        <div class="comment-divider"></div>
+<div class="product-page-container">
+  <div class="row">
+    <!-- Product Image and Information -->
+    <div class="col-md-6">
+      <div class="product-image text-center mb-4">
+        <%= image_tag @product.image, alt: @product.name if @product.image.attached? %>
       </div>
-    <% end %>
-  <% else %>
-    <p>No comments yet. Be the first to comment!</p>
-  <% end %>
-</div>
 
-<h3>Add a Comment:</h3>
-<div class="add-comment-form">
-  <%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
-    <div class="form-group">
-      <%= form.label :content %>
-      <%= form.text_area :content, class: "form-control" %>
+      <!-- Product Short Info under the Image -->
+      <div class="product-info text-center">
+        <h1 class="product-name"><%= @product.name %></h1>
+        <p class="product-short-description"><%= truncate(@product.description, length: 100) %></p>
+        <p class="product-price">Price: <span class="price-value">$<%= @product.price %></span></p>
+
+        <!-- Display Average Rating -->
+        <div class="product-rating">
+          <strong>Average Rating:</strong>
+          <% if @product.average_rating.present? %>
+            <span class="rating-value"><%= @product.average_rating.round(1) %> / 5</span>
+          <% else %>
+            <span class="rating-value">Not Rated Yet</span>
+          <% end %>
+        </div>
+
+        <!-- Add to Cart Button under short info -->
+        <div class="text-center mt-3">
+          <%= button_to 'Add to Cart', cart_items_path(product_id: @product.id), method: :post, class: 'btn btn-success add-to-cart-btn' %>
+        </div>
+
+        <!-- Rating Submission Form -->
+        <div class="add-rating-form mt-3">
+          <h3>Rate this Product:</h3>
+          <%= form_with(model: [ @product, Rating.new ], local: true) do |form| %>
+            <div class="form-group">
+              <%= form.label :value, 'Rating (1-5)', class: 'form-label' %>
+              <%= form.number_field :value, in: 1..5, step: 1, value: @user_rating&.value, class: 'form-control', required: true %>
+            </div>
+            <%= form.submit "Submit Rating", class: "btn btn-primary mt-2 submit-rating-btn" %>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <%= form.submit "Post Comment", class: "btn btn-primary mt-2" %>
-  <% end %>
+
+    <!-- Product Details and Comments Tabs on the Right -->
+    <div class="col-md-6">
+      <!-- Tabs for Switching between Details and Comments -->
+      <ul class="nav nav-tabs" id="productTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="details-tab" data-bs-toggle="tab" href="#details-section" role="tab" aria-controls="details-section" aria-selected="true">Details</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="comments-tab" data-bs-toggle="tab" href="#comments-section" role="tab" aria-controls="comments-section" aria-selected="false">Comments</a>
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content" id="productTabContent">
+        <!-- Product Details Section -->
+        <div class="tab-pane fade show active" id="details-section" role="tabpanel" aria-labelledby="details-tab">
+          <div class="product-info-details mt-4">
+            <h2>Product Details</h2>
+            <p><%= @product.description %></p>
+            <p class="product-price">Price: <span class="price-value">$<%= @product.price %></span></p>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="tab-pane fade" id="comments-section" role="tabpanel" aria-labelledby="comments-tab">
+          <!-- Add Comment Form -->
+          <div class="add-comment-form mt-4">
+            <h3 class="add-comment-title">Add a Comment:</h3>
+            <%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
+              <div class="form-group">
+                <%= form.label :content, class: 'form-label' %>
+                <%= form.text_area :content, class: "form-control" %>
+              </div>
+              <%= form.submit "Post Comment", class: "btn btn-primary mt-2 submit-comment-btn" %>
+            <% end %>
+          </div>
+
+          <!-- Comments List -->
+          <h2 class="comments-title mt-5">Comments</h2>
+          <% if @product.comments.any? %>
+            <% @product.comments.each do |comment| %>
+              <div class="comment-box">
+                <div class="comment-user">
+                  <strong><%= comment.user&.username || 'Anonymous' %>:</strong>
+                </div>
+                <div class="comment-content">
+                  <p><%= comment.content %></p>
+                </div>
+                <div class="comment-divider"></div>
+              </div>
+            <% end %>
+          <% else %>
+            <p>No comments yet. Be the first to comment!</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

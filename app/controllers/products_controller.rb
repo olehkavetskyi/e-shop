@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @products = Product.all
@@ -8,8 +8,9 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find(params[:id])
     @comment = Comment.new
+    @rating = Rating.new
+    @user_rating = current_user ? @product.ratings.find_by(user: current_user) : nil
   end
-
 
   def new
     @product = Product.new
@@ -24,12 +25,7 @@ class ProductsController < ApplicationController
     end
   end
 
-  private
-
-  def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :category_id)
-  end
-
+  # Action to handle comment creation
   def create_comment
     @product = Product.find(params[:product_id])
     @comment = @product.comments.new(comment_params)
@@ -42,13 +38,30 @@ class ProductsController < ApplicationController
     end
   end
 
+  # Action to handle rating creation or update
+  def create_rating
+    @product = Product.find(params[:product_id])
+    @rating = @product.ratings.find_or_initialize_by(user: current_user)
+
+    if @rating.update(rating_params)
+      @product.update_rating!  # Ensure the product's average rating is updated
+      redirect_to @product, notice: 'Rating was successfully submitted.'
+    else
+      redirect_to @product, alert: 'Error submitting rating.'
+    end
+  end
+
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :category_id, :image)  # Add :image here
+    params.require(:product).permit(:name, :description, :price, :stock, :category_id, :image)  # Add :image for file upload
   end
 
   def comment_params
     params.require(:comment).permit(:content)
+  end
+
+  def rating_params
+    params.require(:rating).permit(:value)
   end
 end
