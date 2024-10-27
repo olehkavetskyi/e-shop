@@ -1,25 +1,36 @@
-<h1><%= @product.name %></h1>
-<p><%= @product.description %></p>
-<p>Price: $<%= @product.price %></p>
-<div>
-  <%= image_tag @product.image %>
+<h1 class="product-title"><%= @product.name %></h1>
+<p class="product-description"><%= @product.description %></p>
+<p class="product-price">Price: $<%= @product.price %></p>
+<div class="product-image">
+  <%= image_tag @product.image, alt: @product.name if @product.image.attached? %>
 </div>
 
 <h2>Comments</h2>
-<div id="comments">
-  <% @product.comments.each do |comment| %>
-    <div class="comment">
-      <p><strong><%= comment.user&.username || 'Anonymous' %>:</strong></p>
-      <p><%= comment.content %></p>
-    </div>
+<div id="comments" class="comments-section">
+  <% if @product.comments.any? %>
+    <% @product.comments.each do |comment| %>
+      <div class="comment-box">
+        <div class="comment-user">
+          <strong><%= comment.user&.username || 'Anonymous' %>:</strong>
+        </div>
+        <div class="comment-content">
+          <p><%= comment.content %></p>
+        </div>
+        <div class="comment-divider"></div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No comments yet. Be the first to comment!</p>
   <% end %>
 </div>
 
 <h3>Add a Comment:</h3>
-<%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :content %>
-    <%= form.text_area :content, class: "form-control" %>
-  </div>
-  <%= form.submit "Post Comment", class: "btn btn-primary" %>
-<% end %>
+<div class="add-comment-form">
+  <%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :content %>
+      <%= form.text_area :content, class: "form-control" %>
+    </div>
+    <%= form.submit "Post Comment", class: "btn btn-primary mt-2" %>
+  <% end %>
+</div>

@@ -1,9 +1,14 @@
-<h1>Products</h1>
+<h1>Our Products</h1>
 
-<div class="row">
-  <% @products.each do |product| %>
-    <div class="col-md-4 mb-3">
-      <div class="card">
+<div class="products-page">
+  <div class="products-grid">
+    <% @products.each do |product| %>
+      <div class="product-card">
+        <% if product.image.attached? %>
+          <%= image_tag product.image, class: 'card-img-top', alt: product.name %>
+        <% else %>
+          <div class="card-img-top">NO IMAGE</div>
+        <% end %>
         <div class="card-body">
           <h5 class="card-title"><%= product.name %></h5>
           <p class="card-text"><%= product.description %></p>
@@ -12,6 +17,6 @@
           <%= link_to 'View Product', product_path(product), class: 'btn btn-primary' %>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
