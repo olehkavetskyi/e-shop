@@ -3,7 +3,8 @@ class CartsController < ApplicationController
 
   def show
     @cart = current_user.cart
-  end
+    # Ensure that the cart is created if it doesn't exist
+    @cart ||= current_user.create_cart  end
 
   def add_to_cart
     @cart = current_user.cart || current_user.create_cart

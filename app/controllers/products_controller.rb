@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
-    @comment = Comment.new  # Create a new instance for the form
+    @comment = Comment.new
   end
 
 
@@ -29,12 +29,11 @@ class ProductsController < ApplicationController
   def product_params
     params.require(:product).permit(:name, :description, :price, :stock, :category_id)
   end
-  # product comments
 
   def create_comment
     @product = Product.find(params[:product_id])
     @comment = @product.comments.new(comment_params)
-    @comment.user = current_user if user_signed_in?  # Associate the comment with the current user
+    @comment.user = current_user if user_signed_in?
 
     if @comment.save
       redirect_to @product, notice: 'Comment was successfully created.'

@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   def create
     @product = Product.find(params[:product_id])
     @comment = @product.comments.build(comment_params)
-    @comment.user = current_user  # Assuming users are logged in using Devise
+    @comment.user = current_user
 
     if @comment.save
       redirect_to @product, notice: "Comment posted successfully."
