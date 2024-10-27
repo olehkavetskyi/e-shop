@@ -1,0 +1,53 @@
+/* app/assets/stylesheets/header.scss */
+
+.navbar {
+  background-color: #fff; // White background for a clean look
+  border-bottom: 1px solid #eaeaea; // Light bottom border for separation
+  padding: 10px 20px; // Padding for the navbar
+
+  .navbar-brand {
+    img {
+      width: 100px; // Logo width
+      height: auto; // Maintain aspect ratio
+    }
+  }
+
+  .nav-link {
+    color: #333; // Text color for links
+    font-weight: 500; // Semi-bold for a refined look
+    margin-right: 30px; // Space between links
+    text-transform: uppercase; // Uppercase letters for a modern feel
+    font-size: 14px; // Consistent font size
+
+    &:hover {
+      color: #007aff; // Change color on hover (Apple blue)
+      text-decoration: underline; // Underline effect on hover
+    }
+  }
+
+  .navbar-text {
+    color: #333; // Text color for welcome message
+    font-weight: 400; // Regular weight for the username
+    font-size: 14px; // Consistent font size
+    margin-right: 30px; // Space before logout
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 10px; // Adjust padding for smaller screens
+    }
+  }
+}
+
+.dropdown-menu {
+  border-radius: 0.25rem; // Rounded corners
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Slight shadow for depth
+
+  .dropdown-item {
+    color: #333; // Text color for items
+    &:hover {
+      background-color: #f8f9fa; // Light background on hover
+      color: #007aff; // Change text color on hover
+    }
+  }
+}

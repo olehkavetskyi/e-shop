@@ -17,6 +17,7 @@
 
 @import "bootstrap";
 
+@import './header.css.scss';
 /* app/assets/stylesheets/application.css */
 
 html, body {

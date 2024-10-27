@@ -15,9 +15,20 @@
           </li>
         <% end %>
 
+        <!-- Show dropdown menu if user is signed in -->
         <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link" %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Welcome, <%= current_user.username %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <%= link_to 'Cart', cart_path(current_user.cart), class: "dropdown-item" %>
+              </li>
+              <li>
+                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              </li>
+            </ul>
           </li>
         <% else %>
           <li class="nav-item">
