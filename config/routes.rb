@@ -6,8 +6,13 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :show]
 
   resources :products do
-    resources :comments, only: [:create]  # Nested resource for comments
-    resources :ratings, only: [:create]    # Nested resource for ratings
+    resources :comments, only: [:create] do
+      member do
+        post :like     # Route for liking a comment
+        post :dislike  # Route for disliking a comment
+      end
+    end
+    resources :ratings, only: [:create]
   end
 
   resource :cart, only: [:show]

@@ -1,3 +1,4 @@
+<!-- app/views/products/show.html.erb -->
 <div class="product-page-container">
   <div class="row">
     <!-- Product Image and Information -->
@@ -22,22 +23,24 @@
           <% end %>
         </div>
 
-        <!-- Add to Cart Button under short info -->
+        <!-- Add to Cart Button -->
         <div class="text-center mt-3">
           <%= button_to 'Add to Cart', cart_items_path(product_id: @product.id), method: :post, class: 'btn btn-success add-to-cart-btn' %>
         </div>
 
-        <!-- Rating Submission Form -->
-        <div class="add-rating-form mt-3">
-          <h3>Rate this Product:</h3>
-          <%= form_with(model: [ @product, Rating.new ], local: true) do |form| %>
-            <div class="form-group">
-              <%= form.label :value, 'Rating (1-5)', class: 'form-label' %>
-              <%= form.number_field :value, in: 1..5, step: 1, value: @user_rating&.value, class: 'form-control', required: true %>
-            </div>
-            <%= form.submit "Submit Rating", class: "btn btn-primary mt-2 submit-rating-btn" %>
-          <% end %>
-        </div>
+        <!-- Rating Submission Form for Authorized Users -->
+        <% if user_signed_in? %>
+          <div class="add-rating-form mt-3">
+            <h3>Rate this Product:</h3>
+            <%= form_with(model: [ @product, Rating.new ], local: true) do |form| %>
+              <div class="form-group">
+                <%= form.label :value, 'Rating (1-5)', class: 'form-label' %>
+                <%= form.number_field :value, in: 1..5, step: 1, value: @user_rating&.value, class: 'form-control', required: true %>
+              </div>
+              <%= form.submit "Submit Rating", class: "btn btn-primary mt-2 submit-rating-btn" %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
 
@@ -66,7 +69,7 @@
 
         <!-- Comments Section -->
         <div class="tab-pane fade" id="comments-section" role="tabpanel" aria-labelledby="comments-tab">
-          <!-- Add Comment Form -->
+          <!-- Add Comment Form for Authorized Users -->
           <% if user_signed_in? %>
             <div class="add-comment-form mt-4">
               <h3 class="add-comment-title">Add a Comment:</h3>
@@ -78,8 +81,6 @@
                 <%= form.submit "Post Comment", class: "btn btn-primary mt-2 submit-comment-btn" %>
               <% end %>
             </div>
-          <% else %>
-            <p class="text-muted">Please <%= link_to 'sign in', new_user_session_path %> to add a comment.</p>
           <% end %>
 
           <!-- Comments List -->
@@ -89,9 +90,19 @@
               <div class="comment-box">
                 <div class="comment-user">
                   <strong><%= comment.user&.username || 'Anonymous' %>:</strong>
+                  <span class="comment-date"><%= comment.created_at.strftime("%B %d, %Y") %></span>
                 </div>
                 <div class="comment-content">
                   <p><%= comment.content %></p>
+                </div>
+
+                <!-- Like/Dislike Buttons -->
+                <div class="comment-actions mt-2">
+                  <%= button_to '👍 Like', like_product_comment_path(@product, comment), method: :post, class: 'btn btn-light btn-sm' %>
+                  <span><%= comment.likes_count %> Likes</span>
+
+                  <%= button_to '👎 Dislike', dislike_product_comment_path(@product, comment), method: :post, class: 'btn btn-light btn-sm' %>
+                  <span><%= comment.dislikes_count %> Dislikes</span>
                 </div>
                 <div class="comment-divider"></div>
               </div>
@@ -100,7 +111,6 @@
             <p>No comments yet. Be the first to comment!</p>
           <% end %>
         </div>
-
       </div>
     </div>
   </div>
