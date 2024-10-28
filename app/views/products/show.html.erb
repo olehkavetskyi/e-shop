@@ -67,16 +67,20 @@
         <!-- Comments Section -->
         <div class="tab-pane fade" id="comments-section" role="tabpanel" aria-labelledby="comments-tab">
           <!-- Add Comment Form -->
-          <div class="add-comment-form mt-4">
-            <h3 class="add-comment-title">Add a Comment:</h3>
-            <%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
-              <div class="form-group">
-                <%= form.label :content, class: 'form-label' %>
-                <%= form.text_area :content, class: "form-control" %>
-              </div>
-              <%= form.submit "Post Comment", class: "btn btn-primary mt-2 submit-comment-btn" %>
-            <% end %>
-          </div>
+          <% if user_signed_in? %>
+            <div class="add-comment-form mt-4">
+              <h3 class="add-comment-title">Add a Comment:</h3>
+              <%= form_with(model: [ @product, Comment.new ], local: true) do |form| %>
+                <div class="form-group">
+                  <%= form.label :content, class: 'form-label' %>
+                  <%= form.text_area :content, class: "form-control" %>
+                </div>
+                <%= form.submit "Post Comment", class: "btn btn-primary mt-2 submit-comment-btn" %>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted">Please <%= link_to 'sign in', new_user_session_path %> to add a comment.</p>
+          <% end %>
 
           <!-- Comments List -->
           <h2 class="comments-title mt-5">Comments</h2>
@@ -96,6 +100,7 @@
             <p>No comments yet. Be the first to comment!</p>
           <% end %>
         </div>
+
       </div>
     </div>
   </div>

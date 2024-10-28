@@ -27,9 +27,9 @@ user = User.create!(
 
 # Create some products
 products = Product.create!([
-                             { name: 'Lipstick', description: 'A bright red lipstick.', price: 19.99, stock: 50, category: categories[0], image: images[0] },
-                             { name: 'Moisturizer', description: 'Hydrating face moisturizer.', price: 29.99, stock: 30, category: categories[1], image: images[1] },
-                             { name: 'Shampoo', description: 'Nourishing shampoo for dry hair.', price: 12.99, stock: 100, category: categories[2], image: images[2] }
+                             { name: 'Lipstick', description: 'A bright red lipstick.', brand: 'La roche posey', price: 19.99, stock: 50, category: categories[0], image: images[0] },
+                             { name: 'Moisturizer', description: 'Hydrating face moisturizer.', brand: 'Nivea', price: 29.99, stock: 30, category: categories[1], image: images[1] },
+                             { name: 'Shampoo', description: 'Nourishing shampoo for dry hair.', brand: 'La roche posey', price: 12.99, stock: 100, category: categories[2], image: images[2] }
                            ])
 
 # Create some comments for the products

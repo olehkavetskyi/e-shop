@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gem "rails", "~> 7.2.1"
 gem 'devise'
 gem 'pundit'
+gem 'kaminari'
 gem "bootstrap", "~> 5.3.2"
 gem 'sassc-rails'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]

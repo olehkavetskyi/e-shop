@@ -2,7 +2,23 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
+    @brands = Product.distinct.pluck(:brand)  # Fetch unique brands for filtering
     @products = Product.all
+
+    # Filtering by price range and brand
+    if params[:min_price].present? || params[:max_price].present?
+      min_price = params[:min_price].present? ? params[:min_price].to_f : 0
+      max_price = params[:max_price].present? ? params[:max_price].to_f : Float::INFINITY
+
+      @products = @products.where(price: min_price..max_price)
+    end
+
+    if params[:brand].present?
+      @products = @products.where(brand: params[:brand])
+    end
+
+    # Pagination (assuming 12 products per page)
+    @products = @products.page(params[:page]).per(2)
   end
 
   def show
@@ -25,7 +41,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # Action to handle comment creation
   def create_comment
     @product = Product.find(params[:product_id])
     @comment = @product.comments.new(comment_params)
@@ -38,7 +53,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # Action to handle rating creation or update
   def create_rating
     @product = Product.find(params[:product_id])
     @rating = @product.ratings.find_or_initialize_by(user: current_user)
@@ -54,7 +68,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :category_id, :image)  # Add :image for file upload
+    params.require(:product).permit(:name, :description, :price, :stock, :brand, :category_id, :image)
   end
 
   def comment_params
