@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   has_many :comments, dependent: :destroy  # Associate products with comments
   has_many :ratings, dependent: :destroy    # Associate products with ratings
   has_one_attached :image
+  scope :by_section, ->(section) { where(section: section) }
+
 
   def average_rating
     ratings.average(:value) # Assuming you have a Rating model with a `value` attribute

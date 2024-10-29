@@ -1,4 +1,3 @@
-<!-- app/views/shared/_header.html.erb -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -9,9 +8,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <% Category.all.each do |category| %>
-          <li class="nav-item">
-            <%= link_to category.name, category_path(category), class: "nav-link" %>
+        <!-- Main Categories with Dropdowns -->
+        <% ["MAKEUP", "SKIN CARE", "HAIR CARE"].each do |category_name| %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="<%= category_name.downcase %>Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= category_name %>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="<%= category_name.downcase %>Dropdown">
+              <% additional_sections = case category_name
+                                       when "MAKEUP" then ["Lipsticks", "Foundations", "Mascaras"]
+                                       when "SKIN CARE" then ["Moisturizers", "Cleansers", "Serums"]
+                                       when "HAIR CARE" then ["Shampoos", "Conditioners", "Hair Masks"]
+                                       else []
+                                       end %>
+
+              <% additional_sections.each do |section| %>
+                <li>
+                  <%= link_to section, products_path(section: section), class: "dropdown-item" %>
+                </li>
+              <% end %>
+            </ul>
           </li>
         <% end %>
 
