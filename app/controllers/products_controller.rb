@@ -28,11 +28,19 @@ class ProductsController < ApplicationController
 
 
   def show
-    @product = Product.find(params[:id])
+    @section = params[:section]
+    @product = Product.find_by(id: params[:id], section: @section)
+
+    # if @product.nil?
+    #   redirect_to products_path, alert: "Product not found in the specified section."
+    #   return
+    # end
+
     @comment = Comment.new
     @rating = Rating.new
     @user_rating = current_user ? @product.ratings.find_by(user: current_user) : nil
   end
+
 
   def new
     @product = Product.new
