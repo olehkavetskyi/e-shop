@@ -9,13 +9,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <!-- Main Categories with Dropdowns -->
-        <% ["MAKEUP", "SKIN CARE", "HAIR CARE"].each do |category_name| %>
+        <% ["MAKEUP", "SKIN CARE", "HAIR CARE"].each do |category| %>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="<%= category_name.downcase %>Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <%= category_name %>
+            <a class="nav-link dropdown-toggle" href="#" id="<%= category.downcase %>Dropdown" role="button" data-bs-toggle="dropdown">
+              <%= category %>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="<%= category_name.downcase %>Dropdown">
-              <% additional_sections = case category_name
+            <ul class="dropdown-menu" aria-labelledby="<%= category.downcase %>Dropdown">
+              <% additional_sections = case category
                                        when "MAKEUP" then ["Lipsticks", "Foundations", "Mascaras"]
                                        when "SKIN CARE" then ["Moisturizers", "Cleansers", "Serums"]
                                        when "HAIR CARE" then ["Shampoos", "Conditioners", "Hair Masks"]
@@ -24,7 +24,7 @@
 
               <% additional_sections.each do |section| %>
                 <li>
-                  <%= link_to section, products_path(section: section), class: "dropdown-item" %>
+                  <%= link_to section, section_products_path(section: section.downcase), class: "dropdown-item" %>
                 </li>
               <% end %>
             </ul>

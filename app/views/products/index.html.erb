@@ -9,21 +9,23 @@
   <!-- Products Grid -->
   <div class="col-md-9">
     <div class="products-page">
-      <div class="products-grid">
+      <div class="row">
         <% @products.each do |product| %>
-          <div class="product-card">
-            <% if product.image.attached? %>
-              <%= image_tag product.image, class: 'card-img-top', alt: product.name %>
-            <% else %>
-              <div class="card-img-top">NO IMAGE</div>
-            <% end %>
-            <div class="card-body">
-              <h5 class="card-title"><%= product.name %></h5>
-              <p class="card-text"><%= product.description %></p>
-              <p class="card-text">Price: $<%= product.price %></p>
-              <p class="card-text">Brand: <%= product.brand %></p>
-              <p class="card-text">Stock: <%= product.stock %></p>
-              <%= link_to 'View Product', product_path(product), class: 'btn btn-primary' %>
+          <div class="col-md-4 mb-4"> <!-- Change col-md-4 to your desired size -->
+            <div class="product-card">
+              <% if product.image.attached? %>
+                <%= image_tag product.image, class: 'card-img-top', alt: product.name %>
+              <% else %>
+                <div class="card-img-top">NO IMAGE</div>
+              <% end %>
+              <div class="card-body">
+                <h5 class="card-title"><%= product.name %></h5>
+                <p class="card-text"><%= product.description %></p>
+                <p class="card-text">Price: $<%= product.price %></p>
+                <p class="card-text">Brand: <%= product.brand %></p>
+                <p class="card-text">Stock: <%= product.stock %></p>
+                <%= link_to 'View Product', product_path(product), class: 'btn btn-primary' %>
+              </div>
             </div>
           </div>
         <% end %>

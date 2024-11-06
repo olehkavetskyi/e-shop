@@ -1,3 +1,4 @@
+# config/routes.rb
 Rails.application.routes.draw do
   devise_for :users
 
@@ -6,10 +7,13 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :show]
 
   resources :products do
+    collection do
+      get ':section', to: 'products#index', as: 'section'
+    end
     resources :comments, only: [:create] do
       member do
-        post :like     # Route for liking a comment
-        post :dislike  # Route for disliking a comment
+        post :like
+        post :dislike
       end
     end
     resources :ratings, only: [:create]

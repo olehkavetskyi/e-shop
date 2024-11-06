@@ -2,28 +2,27 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @brands = Product.distinct.pluck(:brand)  # Fetch unique brands for filtering
+    @brands = Product.distinct.pluck(:brand)
+    @section = params[:section]   # Get section from URL
     @products = Product.all
 
-    # Filtering by section
-    if params[:section].present?
-      @products = @products.where(section: params[:section])
+    # Filter products by section if provided
+    if @section.present?
+      @products = @products.where("lower(section) = ?", @section.downcase)
     end
 
-    # Filtering by price range
+    # Apply additional filters
     if params[:min_price].present? || params[:max_price].present?
-      min_price = params[:min_price].present? ? params[:min_price].to_f : 0
+      min_price = params[:min_price].to_f
       max_price = params[:max_price].present? ? params[:max_price].to_f : Float::INFINITY
-
       @products = @products.where(price: min_price..max_price)
     end
 
-    # Filtering by brand
     if params[:brand].present?
       @products = @products.where(brand: params[:brand])
     end
 
-    # Pagination (assuming 12 products per page)
+    # Paginate results
     @products = @products.page(params[:page]).per(12)
   end
 
