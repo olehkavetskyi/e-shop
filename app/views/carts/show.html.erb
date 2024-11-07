@@ -32,6 +32,11 @@
     </tbody>
   </table>
   <p>Total: <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></p>
+
+  <!-- Link to the checkout page -->
+  <div class="checkout-button">
+    <%= link_to 'Proceed to Checkout', checkout_path, class: "btn btn-primary" %>
+  </div>
 <% else %>
   <p>Your cart is empty.</p>
 <% end %>

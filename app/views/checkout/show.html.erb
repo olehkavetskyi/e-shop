@@ -1,0 +1,95 @@
+<h1 class="checkout-title">Checkout</h1>
+
+<h2 class="order-summary-title">Order Summary</h2>
+<table class="table">
+  <% @cart.cart_items.each do |item| %>
+    <tr>
+      <td><%= item.product.name %></td>
+      <td><%= item.quantity %></td>
+      <td><%= number_to_currency(item.product.price) %></td>
+      <td><%= number_to_currency(item.product.price * item.quantity) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p class="total">Total: <%= number_to_currency(@total) %></p>
+
+<%= form_with url: checkout_path, local: true, id: 'payment-form', class: 'checkout-form' do |f| %>
+  <h2 class="delivery-method-title">Choose Delivery Method</h2>
+
+  <div class="form-group">
+    <%= f.label :delivery_method, class: 'form-label' %>
+    <div class="select-wrapper">
+      <%= f.select :delivery_method, options_for_select(@delivery_methods), prompt: "Select a method", class: 'form-control' %>
+    </div>
+  </div>
+
+  <h2 class="payment-title">Billing Address</h2>
+  <div class="form-group">
+    <%= f.label :address_line1, class: 'form-label' %>
+    <%= f.text_field :address_line1, class: 'form-control', placeholder: "Street address" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :address_line2, class: 'form-label' %>
+    <%= f.text_field :address_line2, class: 'form-control', placeholder: "Apartment, suite, etc. (optional)" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :city, class: 'form-label' %>
+    <%= f.text_field :city, class: 'form-control', placeholder: "City" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :postal_code, class: 'form-label' %>
+    <%= f.text_field :postal_code, class: 'form-control', placeholder: "Postal code" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :country, class: 'form-label' %>
+    <div class="select-wrapper">
+      <%= f.select :country, options_for_select(['Ukraine', 'United Kingdom', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Austria', 'Ireland', 'Sweden'], prompt: "Select a country"), class: 'form-control' %>
+    </div>
+  </div>
+
+  <h2 class="payment-title">Payment</h2>
+  <div id="card-element" class="form-control card-element"></div>
+  <div id="card-errors" role="alert" class="error-message"></div>
+
+  <%= f.hidden_field :stripeToken, id: 'stripe_token' %>
+  <%= f.submit "Complete Purchase", class: "btn btn-primary" %>
+<% end %>
+
+<script>
+    // Only initialize Stripe if it isn't already initialized
+    document.addEventListener("turbo:load", function() {
+        if (typeof Stripe !== 'undefined' && !window.stripe) {
+            // Initialize Stripe only once
+            window.stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
+            const elements = window.stripe.elements();
+            const card = elements.create('card');
+            card.mount('#card-element');
+
+            // Handle validation errors from Stripe
+            card.on('change', function(event) {
+                const displayError = document.getElementById('card-errors');
+                displayError.textContent = event.error ? event.error.message : '';
+            });
+
+            // Handle form submission
+            const form = document.getElementById('payment-form');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const { token, error } = await window.stripe.createToken(card);
+                if (error) {
+                    // Show error in the card-errors element
+                    document.getElementById('card-errors').textContent = error.message;
+                } else {
+                    // Insert the token ID and address details into the form
+                    document.getElementById('stripe_token').value = token.id;
+
+                    // Optionally add address fields to be sent with the form
+                    form.submit();
+                }
+            });
+        }
+    });
+</script>

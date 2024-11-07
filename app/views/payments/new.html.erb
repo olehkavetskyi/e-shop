@@ -1,0 +1,31 @@
+<h2>Complete Payment</h2>
+<div id="card-element"></div>
+<button id="submit-button">Pay</button>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var stripe = Stripe("<%= @stripe_publishable_key %>");
+    var elements = stripe.elements();
+    var cardElement = elements.create("card");
+    cardElement.mount("#card-element");
+
+  var submitButton = document.getElementById("submit-button");
+  submitButton.addEventListener("click", function() {
+    fetch("<%= payments_path %>", { method: "POST" })
+      .then(response => response.json())
+      .then(data => {
+        stripe.confirmCardPayment(data.client_secret, {
+          payment_method: { card: cardElement }
+        }).then(function(result) {
+          if (result.error) {
+            alert(result.error.message);
+          } else {
+            alert("Payment successful!");
+          window.location.href = "<%= product_path(@product) %>";
+          }
+        });
+      });
+    });
+  });
+</script>

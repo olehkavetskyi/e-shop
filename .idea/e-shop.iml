@@ -124,6 +124,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.5.2, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v2.1.0, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stimulus-rails (v1.3.4, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="stripe (v13.1.0, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.3.2, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tilt (v2.4.0, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="turbo-rails (v2.0.10, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
@@ -163,6 +164,8 @@
         <option value="integration_test" />
         <option value="jbuilder" />
         <option value="job" />
+        <option value="kaminari:config" />
+        <option value="kaminari:views" />
         <option value="mailbox" />
         <option value="mailer" />
         <option value="migration" />
@@ -208,6 +211,8 @@
         <option value="integration_test" />
         <option value="jbuilder" />
         <option value="job" />
+        <option value="kaminari:config" />
+        <option value="kaminari:views" />
         <option value="mailbox" />
         <option value="mailer" />
         <option value="migration" />

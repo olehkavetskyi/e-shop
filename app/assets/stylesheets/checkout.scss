@@ -1,0 +1,150 @@
+/* Global Styles */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.checkout-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-summary-title,
+.payment-title,
+.delivery-method-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.total {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+form .form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #4A90E2;
+  outline: none;
+}
+
+.card-element {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: #4A90E2;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #357ABD;
+}
+
+/* Make the form and summary look centered and neat */
+.checkout-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h2.payment-title {
+  margin-top: 40px;
+}
+
+
+/* Custom Select Styles */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  -webkit-appearance: none;  /* Remove default styling for webkit browsers */
+  -moz-appearance: none;     /* Remove default styling for Firefox */
+  appearance: none;          /* Remove default styling */
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.select-wrapper select:focus {
+  border-color: #4A90E2;
+  outline: none;
+}
+
+/* Custom arrow for the select */
+.select-wrapper::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #aaa;
+  pointer-events: none;
+}
+
+/* On hover, change the background color slightly */
+.select-wrapper select:hover {
+  background-color: #f9f9f9;
+}
