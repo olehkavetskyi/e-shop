@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
       @products = @products.where("lower(section) = ?", @section.downcase)
     end
 
-    # Apply additional filters
+    # Apply additional filters for price and brand
     if params[:min_price].present? || params[:max_price].present?
       min_price = params[:min_price].to_f
       max_price = params[:max_price].present? ? params[:max_price].to_f : Float::INFINITY
@@ -26,21 +26,20 @@ class ProductsController < ApplicationController
     @products = @products.page(params[:page]).per(12)
   end
 
-
   def show
     @section = params[:section]
     @product = Product.find_by(id: params[:id], section: @section)
 
-    # if @product.nil?
-    #   redirect_to products_path, alert: "Product not found in the specified section."
-    #   return
-    # end
+    # Redirect if the product isn't found in the specified section
+    if @product.nil?
+      redirect_to products_path, alert: "Product not found in the specified section."
+      return
+    end
 
     @comment = Comment.new
     @rating = Rating.new
     @user_rating = current_user ? @product.ratings.find_by(user: current_user) : nil
   end
-
 
   def new
     @product = Product.new
@@ -82,11 +81,11 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :brand, :category_id, :image)
+    params.require(:product).permit(:name, :description, :price, :stock, :brand, :category_id, :image, :section)
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content, :parent_id)
   end
 
   def rating_params

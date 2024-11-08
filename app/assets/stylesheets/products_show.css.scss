@@ -172,3 +172,34 @@
     color: #333;
   }
 }
+
+.rating-stars {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.star-input {
+  display: none;
+}
+
+.star-label {
+  font-size: 24px;
+  color: #ccc; /* Default unfilled color */
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.star-input:checked + .star-label,
+.star-input:hover + .star-label {
+  color: #ffcd3c; /* Highlight color for selected or hovered stars */
+}
+
+/* Fix issue with the order of the stars */
+.star-input:checked ~ .star-label {
+  color: #ffcd3c; /* Highlight all previous stars */
+}
+
+.star-input:checked + .star-label + .star-label {
+  color: #ccc; /* Keep the rest of the stars unfilled */
+}

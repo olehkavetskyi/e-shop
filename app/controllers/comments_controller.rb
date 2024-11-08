@@ -3,10 +3,23 @@ class CommentsController < ApplicationController
 
   def create
     @product = Product.find(params[:product_id])
+
+    # Check if the user has already commented and rated the product
+    existing_comment = @product.comments.find_by(user: current_user)
+    if existing_comment
+      redirect_to @product, alert: "You have already rated and commented on this product."
+      return
+    end
+
+    # Build comment with rating
     @comment = @product.comments.build(comment_params.merge(user: current_user))
 
     if @comment.save
-      redirect_to @product, notice: "Comment posted successfully."
+      # Update product's average rating if a rating is provided
+      if @comment.rating.present?
+        @product.update_average_rating!
+      end
+      redirect_to @product, notice: "Comment and rating posted successfully."
     else
       redirect_to @product, alert: "Comment could not be posted."
     end
@@ -25,7 +38,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content, :rating)
   end
 
   def like_dislike_comment(comment, like_status)

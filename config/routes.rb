@@ -32,7 +32,6 @@ Rails.application.routes.draw do
 
   resource :checkout, only: [:show, :create], controller: 'checkout'
 
-
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
