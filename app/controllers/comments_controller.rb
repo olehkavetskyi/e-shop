@@ -7,7 +7,8 @@ class CommentsController < ApplicationController
     # Check if the user has already commented and rated the product
     existing_comment = @product.comments.find_by(user: current_user)
     if existing_comment
-      redirect_to @product, alert: "You have already rated and commented on this product."
+      section = params[:section] || 'default_section'  # Set a fallback if section is nil
+      redirect_to show_product_products_path(section: section, id: @product.id), alert: "You have already rated and commented on this product."
       return
     end
 
@@ -19,11 +20,14 @@ class CommentsController < ApplicationController
       if @comment.rating.present?
         @product.update_average_rating!
       end
-      redirect_to @product, notice: "Comment and rating posted successfully."
+      section = params[:section] || 'default_section'  # Set a fallback if section is nil
+      redirect_to show_product_products_path(section: section, id: @product.id), notice: "Comment and rating posted successfully."
     else
-      redirect_to @product, alert: "Comment could not be posted."
+      section = params[:section] || 'default_section'  # Set a fallback if section is nil
+      redirect_to show_product_products_path(section: section, id: @product.id), alert: "Comment could not be posted."
     end
   end
+
 
   def like
     @comment = Comment.find(params[:id])

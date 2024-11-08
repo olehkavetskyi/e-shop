@@ -39,10 +39,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li>
-                <%= link_to 'Cart', cart_path(current_user.cart), class: "dropdown-item" %>
+                <%= link_to 'Cart', cart_path, class: "dropdown-item" %>
               </li>
               <li>
-                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
               </li>
             </ul>
           </li>

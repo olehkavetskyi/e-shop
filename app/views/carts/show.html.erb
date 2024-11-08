@@ -1,7 +1,7 @@
-<h1>Your Cart</h1>
+<h1 class="cart-title">Your Cart</h1>
 
 <% if @cart.cart_items.any? %>
-  <table class="table">
+  <table class="cart-table">
     <thead>
     <tr>
       <th>Product</th>
@@ -14,29 +14,30 @@
     <tbody>
     <% @cart.cart_items.each do |item| %>
       <tr>
-        <td><%= item.product.name %></td>
-        <td>
+        <td class="product-name"><%= item.product.name %></td>
+        <td class="quantity-column">
           <div class="quantity-controls">
-            <%= button_to '-', cart_item_path(item, quantity: item.quantity - 1), method: :patch, class: 'btn btn-secondary btn-sm' %>
+            <%= button_to '-', cart_item_path(item, quantity: item.quantity - 1), method: :patch, class: 'btn-quantity' %>
             <span class="quantity-display"><%= item.quantity %></span>
-            <%= button_to '+', cart_item_path(item, quantity: item.quantity + 1), method: :patch, class: 'btn btn-secondary btn-sm' %>
+            <%= button_to '+', cart_item_path(item, quantity: item.quantity + 1), method: :patch, class: 'btn-quantity' %>
           </div>
         </td>
-        <td><%= number_to_currency(item.product.price) %></td>
-        <td><%= number_to_currency(item.product.price * item.quantity) %></td>
-        <td>
-          <%= link_to 'Remove', cart_item_path(item), method: :delete, class: "btn btn-danger" %>
+        <td class="price"><%= number_to_currency(item.product.price) %></td>
+        <td class="total"><%= number_to_currency(item.product.price * item.quantity) %></td>
+        <td class="actions">
+          <%= link_to 'Remove', cart_item_path(item), method: :delete, class: "btn-remove" %>
         </td>
       </tr>
     <% end %>
     </tbody>
   </table>
-  <p>Total: <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></p>
 
-  <!-- Link to the checkout page -->
-  <div class="checkout-button">
-    <%= link_to 'Proceed to Checkout', checkout_path, class: "btn btn-primary" %>
+  <div class="cart-summary">
+    <p class="total-price">Total: <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></p>
+    <div class="checkout-button">
+      <%= link_to 'Proceed to Checkout', checkout_path, class: "btn-checkout" %>
+    </div>
   </div>
 <% else %>
-  <p>Your cart is empty.</p>
+  <p class="empty-cart">Your cart is empty.</p>
 <% end %>
