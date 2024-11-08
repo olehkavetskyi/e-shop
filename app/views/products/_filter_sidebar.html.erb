@@ -1,4 +1,3 @@
-<!-- app/views/products/_filter_sidebar.html.erb -->
 <div class="filter-sidebar">
   <h3>Filter by</h3>
   <%= form_with(url: @section.present? ? section_products_path(@section) : products_path, method: :get, local: true) do |f| %>
@@ -13,6 +12,10 @@
     <div class="form-group">
       <label>Brand:</label>
       <%= f.select :brand, options_for_select(@brands, params[:brand]), include_blank: "All Brands", class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <label>Sort by:</label>
+      <%= f.select :sort_by, options_for_select([['Price: Low to High', 'price_asc'], ['Price: High to Low', 'price_desc'], ['Name: A-Z', 'name_asc'], ['Name: Z-A', 'name_desc']], params[:sort_by]), include_blank: "Select", class: 'form-control' %>
     </div>
     <%= f.submit "Filter", class: "btn btn-primary" %>
   <% end %>

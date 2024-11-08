@@ -22,6 +22,18 @@ class ProductsController < ApplicationController
       @products = @products.where(brand: params[:brand])
     end
 
+    # Sorting logic based on :sort_by parameter
+    case params[:sort_by]
+    when 'price_asc'
+      @products = @products.order(price: :asc)
+    when 'price_desc'
+      @products = @products.order(price: :desc)
+    when 'name_asc'
+      @products = @products.order(name: :asc)
+    when 'name_desc'
+      @products = @products.order(name: :desc)
+    end
+
     # Paginate results
     @products = @products.page(params[:page]).per(12)
   end
