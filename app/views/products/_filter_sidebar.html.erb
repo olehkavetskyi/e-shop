@@ -15,7 +15,7 @@
     </div>
     <div class="form-group">
       <label>Sort by:</label>
-      <%= f.select :sort_by, options_for_select([['Price: Low to High', 'price_asc'], ['Price: High to Low', 'price_desc'], ['Name: A-Z', 'name_asc'], ['Name: Z-A', 'name_desc']], params[:sort_by]), include_blank: "Select", class: 'form-control' %>
+      <%= f.select :sort_by, options_for_select([['Price: Low to High', 'price_asc'], ['Price: High to Low', 'price_desc'], ['Name: A-Z', 'name_asc'], ['Name: Z-A', 'name_desc']], params[:sort_by]), include_blank: "Default", class: 'form-control' %>
     </div>
     <%= f.submit "Filter", class: "btn btn-primary" %>
   <% end %>

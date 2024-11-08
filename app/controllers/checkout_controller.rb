@@ -18,6 +18,13 @@ class CheckoutController < ApplicationController
                             description: "Order for #{current_user.email}",
                           })
 
+    # Update stock for each purchased product
+    @cart.cart_items.each do |item|
+      product = item.product
+      product.update(stock: product.stock - item.quantity)
+    end
+
+
     @cart.cart_items.destroy_all
     redirect_to root_path, notice: "Payment successful! Your order will be shipped via #{delivery_method}."
   rescue Stripe::CardError => e
