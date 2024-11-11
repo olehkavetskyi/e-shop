@@ -9,27 +9,28 @@ Rails.application.routes.draw do
 
   # Product routes
   resources :products, except: :show do
-    # Custom show route to include section
+    # Custom show route to include section in URL
     collection do
       get ':section/:id', to: 'products#show', as: 'show_product'
       get ':section', to: 'products#index', as: 'section'
     end
 
-    # Nested routes for comments and ratings
+    # Nested routes for comments within products
     resources :comments, only: [:create] do
+      # Member routes for like/dislike actions
       member do
-        post :like
-        post :dislike
+        post :like   # Route for liking a comment
+        post :dislike # Route for disliking a comment
       end
     end
 
-    resources :ratings, only: [:create]
+    # Separate route for rating within the product scope
+    post 'rate', to: 'comments#rate', as: 'rate'
   end
 
-  # Cart routes
+  # Cart and Checkout routes
   resource :cart, only: [:show]
   resources :cart_items, only: [:create, :update, :destroy]
-
   resource :checkout, only: [:show, :create], controller: 'checkout'
 
   # Health check route

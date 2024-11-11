@@ -1,17 +1,15 @@
 class Product < ApplicationRecord
   belongs_to :category
-  has_many :comments, dependent: :destroy  # Associate products with comments
-  has_many :ratings, dependent: :destroy    # Associate products with ratings
+  has_many :comments, dependent: :destroy
+  has_many :ratings, dependent: :destroy  # This assumes you have a separate Rating model
   has_one_attached :image
   scope :by_section, ->(section) { where(section: section) }
 
-
-  def average_rating
-    ratings.average(:value) # Assuming you have a Rating model with a `value` attribute
+  def calculate_average_rating
+    ratings.average(:value)
   end
 
   def update_rating!
-    self.update(average_rating: average_rating)
+    update(average_rating: calculate_average_rating)
   end
-
 end

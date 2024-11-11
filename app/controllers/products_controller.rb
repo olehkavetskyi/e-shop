@@ -66,29 +66,29 @@ class ProductsController < ApplicationController
     end
   end
 
-  def create_comment
-    @product = Product.find(params[:product_id])
-    @comment = @product.comments.new(comment_params)
-    @comment.user = current_user if user_signed_in?
+  # def create_comment
+  #   @product = Product.find(params[:product_id])
+  #   @comment = @product.comments.new(comment_params)
+  #   @comment.user = current_user if user_signed_in?
+  #
+  #   if @comment.save
+  #     redirect_to @product, notice: 'Comment was successfully created.'
+  #   else
+  #     redirect_to @product, alert: 'Error creating comment.'
+  #   end
+  # end
 
-    if @comment.save
-      redirect_to @product, notice: 'Comment was successfully created.'
-    else
-      redirect_to @product, alert: 'Error creating comment.'
-    end
-  end
-
-  def create_rating
-    @product = Product.find(params[:product_id])
-    @rating = @product.ratings.find_or_initialize_by(user: current_user)
-
-    if @rating.update(rating_params)
-      @product.update_rating!  # Ensure the product's average rating is updated
-      redirect_to @product, notice: 'Rating was successfully submitted.'
-    else
-      redirect_to @product, alert: 'Error submitting rating.'
-    end
-  end
+  # def create_rating
+  #   @product = Product.find(params[:product_id])
+  #   @rating = @product.ratings.find_or_initialize_by(user: current_user)
+  #
+  #   if @rating.update(rating_params)
+  #     @product.update_rating!  # Ensure the product's average rating is updated
+  #     redirect_to @product, notice: 'Rating was successfully submitted.'
+  #   else
+  #     redirect_to @product, alert: 'Error submitting rating.'
+  #   end
+  # end
 
   private
 

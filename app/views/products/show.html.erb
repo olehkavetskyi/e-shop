@@ -106,7 +106,6 @@
                   <%= button_to '👎 Dislike', dislike_product_comment_path(@product, comment), method: :post, class: 'btn btn-light btn-sm' %>
                   <span><%= comment.dislikes_count %> Dislikes</span>
 
-
                   <!-- Reply Button -->
                   <button class="btn btn-link btn-sm reply-btn" data-comment-id="<%= comment.id %>">Reply</button>
                 </div>
