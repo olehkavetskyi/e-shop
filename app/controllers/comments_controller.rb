@@ -4,30 +4,56 @@ class CommentsController < ApplicationController
   before_action :set_section, only: [:create]
 
   def create
-    # Create a comment with optional rating and parent comment (for replies)
+    @product = Product.find(params[:product_id])
+    @section = params[:section] || 'default_section'
+
+    # Check if the user has already rated the product (one rating per product per user)
+    if @product.comments.exists?(user: current_user) && comment_params[:rating].present?
+      respond_to do |format|
+        format.js { render 'rating_error' }  # Renders error JS response if rating already exists
+      end
+      return
+    end
+
+    # Build the comment with user and product association
     @comment = @product.comments.build(comment_params.merge(user: current_user))
 
     if @comment.save
-      @product.update_rating! if @comment.rating.present? # Update product rating if a rating is provided
-      redirect_with_notice("Comment posted successfully.")
+      @product.update_rating! if @comment.rating.present?
+      respond_to do |format|
+        format.js { render 'comment_create' }  # Renders JS to display the new comment
+      end
     else
-      redirect_with_alert("Comment could not be posted.")
+      respond_to do |format|
+        format.js { render 'comment_error' }  # Renders error JS if comment couldn't be saved
+      end
     end
   end
 
+
   def like
-    update_like_status(true)
-    respond_to do |format|
-      format.html { redirect_to @comment.product, notice: "Your like has been recorded." }
-      format.js { render 'reaction' }
+    @comment = Comment.find(params[:id])
+    if update_like_status(true)
+      respond_to do |format|
+        format.js { render 'reaction' }  # Renders reaction.js.erb for AJAX update
+      end
+    else
+      respond_to do |format|
+        format.js { render 'reaction_error' }  # Optionally, handle errors with a different partial or message
+      end
     end
   end
 
   def dislike
-    update_like_status(false)
-    respond_to do |format|
-      format.html { redirect_to @comment.product, notice: "Your dislike has been recorded." }
-      format.js { render 'reaction' }
+    @comment = Comment.find(params[:id])
+    if update_like_status(false)
+      respond_to do |format|
+        format.js { render 'reaction' }
+      end
+    else
+      respond_to do |format|
+        format.js { render 'reaction_error' }
+      end
     end
   end
 
@@ -35,7 +61,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :rating, :parent_id)
+    params.require(:comment).permit(:content, :rating)
   end
 
   def set_product
@@ -55,16 +81,12 @@ class CommentsController < ApplicationController
   end
 
   def update_like_status(like_status)
-    @comment = Comment.find(params[:id])
     existing_like = @comment.comment_likes.find_or_initialize_by(user: current_user)
-
     if existing_like.new_record? || existing_like.like != like_status
       existing_like.update(like: like_status)
-      notice = "Your reaction has been recorded."
+      true
     else
-      notice = "Your reaction is already recorded as #{like_status ? 'like' : 'dislike'}."
+      false
     end
-
-    redirect_to @comment.product, notice: notice
   end
 end

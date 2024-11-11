@@ -1,205 +1,93 @@
+// Product Page Styling inspired by Apple and Zara
 .product-page-container {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+
   .product-image {
-    max-width: 100%;
-    margin-bottom: 30px;
+    width: 70%; // Responsive width for smaller screens
+    max-width: 25vw; // Sets maximum width relative to viewport for large screens
+    aspect-ratio: 1; // Keeps the image square
+    margin: 0 auto 1rem; // Centers image and adds bottom spacing
+    overflow: hidden;
+    border-radius: 8px;
 
     img {
-      width: 80%;
-      object-fit: contain;
-      border: 1px solid #eaeaea;
-      padding: 20px;
-      border-radius: 5px;
+      width: 100%; // Ensures the image scales down
+      height: auto; // Maintains aspect ratio within the specified max-width
+      object-fit: cover; // Crop image to fill the dimensions
     }
   }
 
-  .product-info {
-    text-align: center;
-    margin-bottom: 30px;
 
-    h1.product-name {
+  .product-info {
+    .product-name {
       font-size: 2rem;
       font-weight: bold;
-      margin-bottom: 10px;
-      color: #333;
+      margin-bottom: 0.5rem;
+      color: #222;
     }
 
     .product-short-description {
       font-size: 1.1rem;
-      color: #777;
-      margin-bottom: 20px;
+      color: #666;
     }
 
     .product-price {
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #000;
+    }
 
-      .price-value {
-        color: #2d2d2d;
+    .add-to-cart-btn {
+      background-color: #0071e3;
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      &:hover {
+        background-color: #005bb5;
       }
     }
-  }
 
-  .add-to-cart-btn {
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 0;
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    &:hover {
-      background-color: #0056b3;
+    .product-rating {
+      font-size: 1rem;
+      .rating-value {
+        color: #ffcc00;
+      }
     }
   }
 
   .nav-tabs {
-    margin-top: 30px;
-    border-bottom: 2px solid #ddd;
-
     .nav-link {
-      color: #555;
-      font-weight: bold;
-      text-transform: uppercase;
-      padding: 10px 15px;
-      &:hover {
-        color: #000;
-      }
-
-      &.active {
-        color: #000;
-        border-color: #000;
-        border-bottom: 3px solid #000;
-      }
-    }
-  }
-
-  .tab-content {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-
-  .comment-box {
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-    .comment-user {
-      font-weight: bold;
-      color: #333;
-    }
-
-    .comment-date {
-      color: #999;
-      font-size: 0.9rem;
-      margin-left: 10px;
-    }
-
-    .comment-content {
-      margin-top: 5px;
       color: #444;
-    }
-
-    .comment-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-
-      button.btn-light {
-        padding: 5px 10px;
-        font-size: 0.85rem;
-        border: 1px solid #ddd;
-        &:hover {
-          background-color: #f1f1f1;
-        }
+      font-size: 1.1rem;
+      &.active {
+        border-bottom: 2px solid #333;
       }
-
-      span {
-        color: #555;
-        font-size: 0.85rem;
-      }
-    }
-
-    .comment-divider {
-      margin-top: 10px;
-      height: 1px;
-      background-color: #e0e0e0;
-    }
-  }
-
-  .add-comment-form, .add-rating-form {
-    h3 {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .form-group {
-      margin-top: 10px;
-
-      .form-label {
-        font-weight: bold;
-        color: #333;
-      }
-
-      .form-control {
-        border-radius: 0;
-        border: 1px solid #ddd;
-        &:focus {
-          border-color: #007bff;
-          box-shadow: none;
-        }
-      }
-    }
-
-    .submit-comment-btn, .submit-rating-btn {
-      background-color: #007bff;
-      color: #fff;
-      border-radius: 0;
-      padding: 8px 15px;
-      font-size: 0.9rem;
-      text-transform: uppercase;
       &:hover {
-        background-color: #0056b3;
+        color: #000;
       }
     }
-  }
-
-  .comments-title {
-    font-size: 1.6rem;
-    font-weight: bold;
-    margin-top: 20px;
-    color: #333;
   }
 }
 
+// Star Rating (Similar to Rozetka)
 .rating-stars {
   display: flex;
-  gap: 5px;
-  cursor: pointer;
-}
+  justify-content: center;
+  .star-input {
+    display: none;
+  }
 
-.star-input {
-  display: none;
-}
-
-.star-label {
-  font-size: 24px;
-  color: #ccc; /* Default unfilled color */
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
-}
-
-.star-input:checked + .star-label,
-.star-input:hover + .star-label {
-  color: #ffcd3c; /* Highlight color for selected or hovered stars */
-}
-
-/* Fix issue with the order of the stars */
-.star-input:checked ~ .star-label {
-  color: #ffcd3c; /* Highlight all previous stars */
-}
-
-.star-input:checked + .star-label + .star-label {
-  color: #ccc; /* Keep the rest of the stars unfilled */
+  .star-label {
+    font-size: 2rem;
+    color: #dcdcdc;
+    cursor: pointer;
+    transition: color 0.2s;
+    &:hover,
+    &:hover ~ .star-label,
+    .star-input:checked ~ .star-label {
+      color: #ffcc00;
+    }
+  }
 }

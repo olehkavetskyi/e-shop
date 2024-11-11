@@ -7,8 +7,11 @@ Rails.application.routes.draw do
   # Category routes
   resources :categories, only: [:index, :show]
 
+  # Custom route for 'new' product page
+  get 'product/new', to: 'products#new', as: 'new_product'
+
   # Product routes
-  resources :products, except: :show do
+  resources :products, except: [:new, :show] do
     # Custom show route to include section in URL
     collection do
       get ':section/:id', to: 'products#show', as: 'show_product'

@@ -1,0 +1,35 @@
+// comment_create.js.erb
+
+// Insert the new comment into the comments list
+const newCommentHtml = `<%= j render partial: 'comments/comment', locals: { comment: @comment } %>`;
+document.getElementById("comments-list").insertAdjacentHTML("beforeend", newCommentHtml);
+
+// Clear the comment form
+const commentForm = document.querySelector(".add-comment-form");
+if (commentForm) {
+    // Clear textarea
+    const textarea = commentForm.querySelector("textarea");
+    if (textarea) {
+        textarea.value = "";
+    }
+
+    // Uncheck all radio buttons
+    const checkedRadioButton = commentForm.querySelector("input[type='radio']:checked");
+    if (checkedRadioButton) {
+        checkedRadioButton.checked = false;
+    }
+}
+
+// Enable the reply functionality for all existing and newly inserted reply buttons
+const replyButtons = document.querySelectorAll(".reply-btn");
+replyButtons.forEach(button => {
+    button.addEventListener("click", (event) => {
+        const commentId = event.target.getAttribute("data-comment-id");
+        const replyForm = document.getElementById(`reply-form-${commentId}`);
+
+        // Toggle the visibility of the reply form
+        if (replyForm) {
+            replyForm.style.display = (replyForm.style.display === "none" || replyForm.style.display === "") ? "block" : "none";
+        }
+    });
+});

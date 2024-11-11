@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :ensure_admin, only: [:new, :create]  # Ensure only admins can access these actions
 
   def index
     @brands = Product.distinct.pluck(:brand)
@@ -66,31 +67,13 @@ class ProductsController < ApplicationController
     end
   end
 
-  # def create_comment
-  #   @product = Product.find(params[:product_id])
-  #   @comment = @product.comments.new(comment_params)
-  #   @comment.user = current_user if user_signed_in?
-  #
-  #   if @comment.save
-  #     redirect_to @product, notice: 'Comment was successfully created.'
-  #   else
-  #     redirect_to @product, alert: 'Error creating comment.'
-  #   end
-  # end
-
-  # def create_rating
-  #   @product = Product.find(params[:product_id])
-  #   @rating = @product.ratings.find_or_initialize_by(user: current_user)
-  #
-  #   if @rating.update(rating_params)
-  #     @product.update_rating!  # Ensure the product's average rating is updated
-  #     redirect_to @product, notice: 'Rating was successfully submitted.'
-  #   else
-  #     redirect_to @product, alert: 'Error submitting rating.'
-  #   end
-  # end
-
   private
+
+  def ensure_admin
+    unless current_user.role == 'admin'  # Checking if the user has admin role
+      redirect_to root_path, alert: 'You are not authorized to access this page.'
+    end
+  end
 
   def product_params
     params.require(:product).permit(:name, :description, :price, :stock, :brand, :category_id, :image, :section)

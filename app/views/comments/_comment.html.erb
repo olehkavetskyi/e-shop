@@ -1,0 +1,44 @@
+<div class="comment-box">
+  <div class="comment-user">
+    <strong><%= comment.user&.username || 'Anonymous' %>:</strong>
+    <span class="comment-date"><%= comment.created_at.strftime("%B %d, %Y") %></span>
+  </div>
+
+  <!-- Display User Rating in Comment -->
+  <div class="comment-rating">
+    <span>Rating: </span>
+    <% (1..5).each do |star| %>
+      <span class="star"><%= star <= (comment.rating || 0) ? '★' : '☆' %></span>
+    <% end %>
+  </div>
+
+  <div class="comment-content">
+    <p><%= comment.content %></p>
+  </div>
+
+  <!-- Like/Dislike Buttons -->
+  <div class="comment-actions mt-2">
+    <%= button_to '👍 Like', like_product_comment_path(@product, comment), method: :post, remote: true, class: 'btn btn-light btn-sm' %>
+    <span><%= comment.likes_count %> Likes</span>
+
+    <%= button_to '👎 Dislike', dislike_product_comment_path(@product, comment), method: :post, remote: true, class: 'btn btn-light btn-sm' %>
+    <span><%= comment.dislikes_count %> Dislikes</span>
+
+    <!-- Reply Button -->
+    <button class="btn btn-link btn-sm reply-btn" data-comment-id="<%= comment.id %>">Reply</button>
+  </div>
+
+  <!-- Reply Form (Hidden by default) -->
+  <div id="reply-form-<%= comment.id %>" class="reply-form mt-3" style="display: none;">
+    <%= form_with(model: [ @category, @product, Comment.new ], local: true) do |form| %>
+      <%= form.hidden_field :parent_id, value: comment.id %>
+      <div class="form-group">
+        <%= form.label :content, "Reply to #{comment.user&.username || 'Anonymous'}:", class: 'form-label' %>
+        <%= form.text_area :content, class: "form-control", placeholder: "Write your reply..." %>
+      </div>
+      <%= form.submit "Post Reply", class: "btn btn-primary mt-2" %>
+    <% end %>
+  </div>
+
+  <div class="comment-divider"></div>
+</div>

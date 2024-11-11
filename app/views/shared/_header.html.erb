@@ -41,6 +41,14 @@
               <li>
                 <%= link_to 'Cart', cart_path, class: "dropdown-item" %>
               </li>
+
+              <!-- Add 'Add a Product' option for admins -->
+              <% if current_user.role == 'admin' %>
+                <li>
+                  <%= link_to 'Add a Product', new_product_path, class: "dropdown-item" %>
+                </li>
+              <% end %>
+
               <li>
                 <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
               </li>

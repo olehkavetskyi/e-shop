@@ -31,7 +31,6 @@
 
     <!-- Product Details and Comments Tabs on the Right -->
     <div class="col-md-6">
-      <!-- Tabs for Switching between Details and Comments -->
       <ul class="nav nav-tabs" id="productTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="details-tab" data-bs-toggle="tab" href="#details-section" role="tab" aria-controls="details-section" aria-selected="true">Details</a>
@@ -54,80 +53,31 @@
 
         <!-- Comments Section -->
         <div class="tab-pane fade" id="comments-section" role="tabpanel" aria-labelledby="comments-tab">
-          <!-- Add Comment Form for Authorized Users -->
           <% if user_signed_in? %>
             <div class="add-comment-form mt-4">
               <h3 class="add-comment-title">Add a Comment:</h3>
-              <%= form_with(model: [ @category, @product, Comment.new ], local: true) do |form| %>
+              <%= form_with(model: [@category, @product, Comment.new], remote: true) do |form| %>
                 <div class="form-group">
                   <%= form.label :content, class: 'form-label' %>
                   <%= form.text_area :content, class: "form-control" %>
                 </div>
-                <!-- Rating Input -->
                 <div class="rating-stars">
                   <% (1..5).each do |star| %>
-                    <%= form.radio_button :rating, star, id: "star-#{star}", class: "star-input", checked: (@user_rating == star) %>
+                    <%= form.radio_button :rating, star, id: "star-#{star}", class: "star-input" %>
                     <label for="star-<%= star %>" class="star-label">★</label>
                   <% end %>
                 </div>
-
                 <%= form.submit "Post Comment", class: "btn btn-primary mt-2 submit-comment-btn" %>
               <% end %>
             </div>
           <% end %>
 
-          <!-- Comments List -->
           <h2 class="comments-title mt-5">Comments</h2>
-          <% if @product.comments.any? %>
+          <div id="comments-list">
             <% @product.comments.each do |comment| %>
-              <div class="comment-box">
-                <div class="comment-user">
-                  <strong><%= comment.user&.username || 'Anonymous' %>:</strong>
-                  <span class="comment-date"><%= comment.created_at.strftime("%B %d, %Y") %></span>
-                </div>
-
-                <!-- Display User Rating in Comment -->
-                <div class="comment-rating">
-                  <span>Rating: </span>
-                  <% (1..5).each do |star| %>
-                    <span class="star"><%= star <= (comment.rating || 0) ? '★' : '☆' %></span>
-                  <% end %>
-                </div>
-
-                <div class="comment-content">
-                  <p><%= comment.content %></p>
-                </div>
-
-                <!-- Like/Dislike Buttons -->
-                <div class="comment-actions mt-2">
-                  <%= button_to '👍 Like', like_product_comment_path(@product, comment), method: :post, class: 'btn btn-light btn-sm' %>
-                  <span><%= comment.likes_count %> Likes</span>
-
-                  <%= button_to '👎 Dislike', dislike_product_comment_path(@product, comment), method: :post, class: 'btn btn-light btn-sm' %>
-                  <span><%= comment.dislikes_count %> Dislikes</span>
-
-                  <!-- Reply Button -->
-                  <button class="btn btn-link btn-sm reply-btn" data-comment-id="<%= comment.id %>">Reply</button>
-                </div>
-
-                <!-- Reply Form (Hidden by default) -->
-                <div id="reply-form-<%= comment.id %>" class="reply-form mt-3" style="display: none;">
-                  <%= form_with(model: [ @category, @product, Comment.new ], local: true) do |form| %>
-                    <%= form.hidden_field :parent_id, value: comment.id %>
-                    <div class="form-group">
-                      <%= form.label :content, "Reply to #{comment.user&.username || 'Anonymous'}:", class: 'form-label' %>
-                      <%= form.text_area :content, class: "form-control", placeholder: "Write your reply..." %>
-                    </div>
-                    <%= form.submit "Post Reply", class: "btn btn-primary mt-2" %>
-                  <% end %>
-                </div>
-
-                <div class="comment-divider"></div>
-              </div>
+              <%= render partial: 'comments/comment', locals: { comment: comment } %>
             <% end %>
-          <% else %>
-            <p>No comments yet. Be the first to comment!</p>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>
