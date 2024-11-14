@@ -5,14 +5,18 @@ Rails.application.routes.draw do
   root to: "products#index"
 
   # Category routes
-  resources :categories, only: [:index, :show]
+  resources :categories, only: [:index, :show] do
+    collection do
+      get 'search', to: 'categories#search', as: 'search'
+    end
+  end
 
   # Custom route for 'new' product page
   get 'product/new', to: 'products#new', as: 'new_product'
 
   # Product routes
   resources :products, except: [:new, :show] do
-    # Custom show route to include section in URL
+    # Custom show route to include category in URL (section in your case)
     collection do
       get ':section/:id', to: 'products#show', as: 'show_product'
       get ':section', to: 'products#index', as: 'section'

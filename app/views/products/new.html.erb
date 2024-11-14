@@ -45,7 +45,8 @@
 
     <div class="new-product__field">
       <%= form.label :category_id, class: "new-product__label" %>
-      <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Select a Category" }, { class: "new-product__select" } %>
+      <%= form.text_field :category_name, id: "category_name", class: "new-product__input", placeholder: "Start typing category name..." %>
+      <ul id="category_suggestions" class="suggestions-list"></ul>
     </div>
 
     <div class="new-product__actions">
@@ -54,3 +55,42 @@
     </div>
   <% end %>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const categoryInput = document.getElementById("category_name");
+        const suggestionList = document.getElementById("category_suggestions");
+
+        // Function to fetch and display category suggestions
+        categoryInput.addEventListener("input", function() {
+            const query = categoryInput.value;
+
+            if (query.length >= 2) { // Start searching after 2 characters
+                fetch(`/categories/search?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionList.innerHTML = "";
+                        data.categories.forEach(category => {
+                            const listItem = document.createElement("li");
+                            listItem.textContent = category.name;
+                            listItem.setAttribute("data-category-id", category.id);
+                            listItem.classList.add("suggestion-item");
+                            suggestionList.appendChild(listItem);
+                        });
+                    });
+            } else {
+                suggestionList.innerHTML = ""; // Clear suggestions when input is cleared
+            }
+        });
+
+        // Handle selection from suggestions
+        suggestionList.addEventListener("click", function(event) {
+            if (event.target && event.target.classList.contains("suggestion-item")) {
+                categoryInput.value = event.target.textContent;
+                // Optionally, store the category_id in a hidden field or pass it directly in form submission
+                document.getElementById("product_category_id").value = event.target.getAttribute("data-category-id");
+                suggestionList.innerHTML = ""; // Clear suggestions
+            }
+        });
+    });
+</script>
