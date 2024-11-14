@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_11_205914) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_14_195813) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -60,6 +60,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_11_205914) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id"
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
   create_table "comment_likes", force: :cascade do |t|
@@ -115,7 +117,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_11_205914) do
     t.datetime "updated_at", null: false
     t.float "average_rating"
     t.string "brand"
-    t.string "section"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

@@ -8,59 +8,38 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <!-- Main Categories with Dropdowns -->
-        <% ["MAKEUP", "SKIN CARE", "HAIR CARE"].each do |category| %>
+        <% @main_categories.each do |category| %>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="<%= category.downcase %>Dropdown" role="button" data-bs-toggle="dropdown">
-              <%= category %>
+            <a class="nav-link dropdown-toggle" href="#" id="category_<%= category.id %>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= category.name %>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="<%= category.downcase %>Dropdown">
-              <% additional_sections = case category
-                                       when "MAKEUP" then ["Lipsticks", "Foundations", "Mascaras"]
-                                       when "SKIN CARE" then ["Moisturizers", "Cleansers", "Serums"]
-                                       when "HAIR CARE" then ["Shampoos", "Conditioners", "Hair Masks"]
-                                       else []
-                                       end %>
-
-              <% additional_sections.each do |section| %>
+            <ul class="dropdown-menu" aria-labelledby="category_<%= category.id %>">
+              <% category.subcategories.each do |subcategory| %>
                 <li>
-                  <%= link_to section, section_products_path(section: section.downcase), class: "dropdown-item" %>
+                  <%= link_to subcategory.name, section_products_path(subcategory.name), class: "dropdown-item" %>
                 </li>
               <% end %>
             </ul>
           </li>
         <% end %>
 
-        <!-- Show dropdown menu if user is signed in -->
+        <!-- User authentication links -->
         <% if user_signed_in? %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Welcome, <%= current_user.username %>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li>
-                <%= link_to 'Cart', cart_path, class: "dropdown-item" %>
-              </li>
-
-              <!-- Add 'Add a Product' option for admins -->
+              <li><%= link_to 'Cart', cart_path, class: "dropdown-item" %></li>
               <% if current_user.role == 'admin' %>
-                <li>
-                  <%= link_to 'Add a Product', new_product_path, class: "dropdown-item" %>
-                </li>
+                <li><%= link_to 'Add a Product', new_product_path, class: "dropdown-item" %></li>
               <% end %>
-
-              <li>
-                <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-              </li>
+              <li><%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
             </ul>
           </li>
         <% else %>
-          <li class="nav-item">
-            <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Login', new_user_session_path, class: "nav-link" %>
-          </li>
+          <li class="nav-item"><%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
         <% end %>
       </ul>
     </div>

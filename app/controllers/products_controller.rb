@@ -4,12 +4,19 @@ class ProductsController < ApplicationController
 
   def index
     @brands = Product.distinct.pluck(:brand)
-    @section = params[:section]   # Get section from URL
+    @category_name = params[:section]  # Get category name (previously section) from URL
     @products = Product.all
 
-    # Filter products by section if provided
-    if @section.present?
-      @products = @products.where("lower(section) = ?", @section.downcase)
+    # Filter products by category if provided
+    if @category_name.present?
+      # Find the category based on its name (case-insensitive)
+      category = Category.find_by("lower(name) = ?", @category_name.downcase)
+
+      if category
+        @products = @products.where(category_id: category.id)
+      else
+        @products = []  # If no category is found, return an empty array
+      end
     end
 
     # Apply additional filters for price and brand
@@ -40,15 +47,23 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @section = params[:section]
-    @product = Product.find_by(id: params[:id], section: @section)
+    @category_name = params[:section]
+    category = Category.find_by("lower(name) = ?", @category_name.downcase)
 
-    # Redirect if the product isn't found in the specified section
-    if @product.nil?
-      redirect_to products_path, alert: "Product not found in the specified section."
+    if category
+      @product = Product.find_by(id: params[:id], category_id: category.id)
+    else
+      redirect_to products_path, alert: "Invalid category section."
       return
     end
 
+    # Redirect if the product isn't found in the specified category
+    if @product.nil?
+      redirect_to products_path, alert: "Product not found in the specified category."
+      return
+    end
+
+    @comments = @product.comments.order(created_at: :desc)
     @comment = Comment.new
     @rating = Rating.new
     @user_rating = current_user ? @product.ratings.find_by(user: current_user) : nil
@@ -76,7 +91,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :brand, :category_id, :image, :section)
+    params.require(:product).permit(:name, :description, :price, :stock, :brand, :category_id, :image)
   end
 
   def comment_params
