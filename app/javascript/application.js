@@ -4,4 +4,5 @@ import "controllers"
 import "bootstrap"
 
 import "./packs/comments"
+// import './../assets/javascripts/product_image_preview'
 
