@@ -1,0 +1,36 @@
+{
+  "application.js": "/packs/js/application-0a4ea72e9686348258f5.js",
+  "application.js.map": "/packs/js/application-0a4ea72e9686348258f5.js.map",
+  "comments.js": "/packs/js/comments-9f8448211bc946f25e55.js",
+  "comments.js.map": "/packs/js/comments-9f8448211bc946f25e55.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-0a4ea72e9686348258f5.js"
+      ],
+      "js.map": [
+        "/packs/js/application-0a4ea72e9686348258f5.js.map"
+      ]
+    },
+    "comments": {
+      "js": [
+        "/packs/js/comments-9f8448211bc946f25e55.js"
+      ],
+      "js.map": [
+        "/packs/js/comments-9f8448211bc946f25e55.js.map"
+      ]
+    },
+    "new_product": {
+      "js": [
+        "/packs/js/new_product-6936cc0862fef8881923.js"
+      ],
+      "js.map": [
+        "/packs/js/new_product-6936cc0862fef8881923.js.map"
+      ]
+    }
+  },
+  "new_product.js": "/packs/js/new_product-6936cc0862fef8881923.js",
+  "new_product.js.map": "/packs/js/new_product-6936cc0862fef8881923.js.map",
+  "vendors~actioncable.js": "/packs/js/vendors~actioncable-b80c9df86d7d85a8f350.chunk.js",
+  "vendors~actioncable.js.map": "/packs/js/vendors~actioncable-b80c9df86d7d85a8f350.chunk.js.map"
+}

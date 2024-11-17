@@ -1,5 +1,5 @@
 // app/javascript/packs/comments.js
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("turbo:load", function() {
     document.querySelectorAll(".reply-btn").forEach(button => {
         button.addEventListener("click", function() {
             const commentId = button.getAttribute("data-comment-id");
