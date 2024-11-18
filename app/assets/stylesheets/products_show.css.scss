@@ -75,19 +75,27 @@
 .rating-stars {
   display: flex;
   justify-content: center;
+  flex-direction: row-reverse; // Reverse the order visually
+
   .star-input {
-    display: none;
+    display: none; // Hide the radio buttons
   }
 
   .star-label {
     font-size: 2rem;
-    color: #dcdcdc;
+    color: #dcdcdc; // Default star color (gray)
     cursor: pointer;
     transition: color 0.2s;
-    &:hover,
-    &:hover ~ .star-label,
-    .star-input:checked ~ .star-label {
-      color: #ffcc00;
-    }
+  }
+
+  // Hover logic for lighting stars from left to right
+  .star-label:hover,
+  .star-label:hover ~ .star-label {
+    color: #ffcc00; // Highlight color (yellow)
+  }
+
+  // Checked state logic
+  .star-input:checked ~ .star-label {
+    color: #ffcc00; // Keep the selected stars highlighted
   }
 }
