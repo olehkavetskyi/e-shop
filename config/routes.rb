@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   resources :cart_items, only: [:create, :update, :destroy]
   resource :checkout, only: [:show, :create], controller: 'checkout'
 
+  resources :feedbacks, only: [:new, :create]
+
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 

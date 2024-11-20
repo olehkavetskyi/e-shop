@@ -17,8 +17,8 @@
 
 @import "bootstrap";
 
-@import './header.css.scss';
-@import './footer.css.scss';
+@import 'header.scss';
+@import 'footer.scss';
 /* app/assets/stylesheets/application.css */
 
 html, body {

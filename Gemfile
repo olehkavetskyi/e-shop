@@ -6,6 +6,7 @@ gem 'devise'
 gem 'pundit'
 gem 'kaminari'
 gem 'stripe'
+gem 'mailtrap'
 gem 'dotenv-rails', groups: [:development, :test]
 gem "bootstrap", "~> 5.3.2"
 gem 'sassc-rails'

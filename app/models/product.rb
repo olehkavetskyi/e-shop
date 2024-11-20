@@ -1,15 +1,23 @@
 class Product < ApplicationRecord
+  # Associations
   belongs_to :category
   has_many :comments, dependent: :destroy
-  has_many :ratings, dependent: :destroy  # This assumes you have a separate Rating model
+  has_many :ratings, dependent: :destroy
   has_one_attached :image
-  scope :by_section, ->(section) { where(section: section) }
 
+  # Scopes
+  scope :by_section, ->(section) { joins(:category).where(categories: { name: section }) }
+
+  # Methods
   def calculate_average_rating
-    ratings.average(:value)
+    return nil if ratings.empty?
+
+    ratings.average(:value)&.round(1)
   end
 
   def update_rating!
-    update(average_rating: calculate_average_rating)
+    new_average = calculate_average_rating
+
+    update(average_rating: new_average)
   end
 end

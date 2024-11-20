@@ -31,6 +31,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li><%= link_to 'Cart', cart_path, class: "dropdown-item" %></li>
+              <li><%= link_to 'Feedback', new_feedback_path, class: "dropdown-item" %></li>
               <% if current_user.role == 'admin' %>
                 <li><%= link_to 'Add a Product', new_product_path, class: "dropdown-item" %></li>
               <% end %>

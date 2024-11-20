@@ -77,6 +77,7 @@
     <orderEntry type="library" scope="PROVIDED" name="logger (v1.6.1, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.22.0, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.8.1, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mailtrap (v2.1.0, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.0.4, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="matrix (v0.4.2, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, RVM: ruby-3.3.3 [global]) [gem]" level="application" />
