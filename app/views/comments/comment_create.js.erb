@@ -1,5 +1,3 @@
-// comment_create.js.erb
-
 // Insert the new comment into the comments list
 const newCommentHtml = `<%= j render partial: 'comments/comment', locals: { comment: @comment } %>`;
 document.getElementById("comments-list").insertAdjacentHTML("beforeend", newCommentHtml);

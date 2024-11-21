@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_action :set_section, only: [:create]
 
   def create
-    @section = params[:section] || 'default_section'
+    @category = params[:category] || 'default_category'
 
     # Build the comment with user and product association
     @comment = @product.comments.build(comment_params.merge(user: current_user))
@@ -69,8 +69,8 @@ class CommentsController < ApplicationController
     @product = Product.find(params[:product_id])
   end
 
-  def set_section
-    @section = params[:section] || 'default_section'
+  def set_category
+    @category = params[:category] || 'default_category'
   end
 
   def create_or_update_rating(rating_value)
@@ -86,11 +86,11 @@ class CommentsController < ApplicationController
   end
 
   def redirect_with_alert(message)
-    redirect_to show_product_products_path(section: @section, id: @product.id), alert: message
+    redirect_to show_product_products_path(category: @section, id: @product.id), alert: message
   end
 
   def redirect_with_notice(message)
-    redirect_to show_product_products_path(section: @section, id: @product.id), notice: message
+    redirect_to show_product_products_path(category: @section, id: @product.id), notice: message
   end
 
   def update_like_status(like_status)

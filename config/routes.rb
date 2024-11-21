@@ -16,18 +16,18 @@ Rails.application.routes.draw do
 
   # Product routes
   resources :products, except: [:new, :show] do
-    # Custom show route to include category in URL (section in your case)
+
     collection do
-      get ':section/:id', to: 'products#show', as: 'show_product'
-      get ':section', to: 'products#index', as: 'section'
+      get ':category/:id', to: 'products#show', as: 'show_product'
+      get ':category', to: 'products#index', as: 'category'
     end
 
     # Nested routes for comments within products
     resources :comments, only: [:create] do
       # Member routes for like/dislike actions
       member do
-        post :like   # Route for liking a comment
-        post :dislike # Route for disliking a comment
+        post :like
+        post :dislike
       end
     end
 

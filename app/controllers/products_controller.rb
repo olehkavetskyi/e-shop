@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
 
   def index
     @brands = Product.distinct.pluck(:brand)
-    @category_name = params[:section]  # Get category name (previously section) from URL
+    @category_name = params[:category]  # Get category name (previously section) from URL
     @products = Product.all
 
     # Filter products by category if provided
@@ -47,7 +47,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @category_name = params[:section]
+    @category_name = params[:category]
     category = Category.find_by("lower(name) = ?", @category_name.downcase)
 
     if category

@@ -1,26 +1,26 @@
 .footer {
-  background-color: #f8f9fa; // Light background for a clean look
-  border-top: 1px solid #ddd; // Subtle border for separation
-  padding: 1.5rem 0; // Vertical padding for breathing space
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding: 1.5rem 0;
 
   .footer-text {
-    color: #333; // Darker text color for contrast
-    font-size: 1rem; // Moderate font size
-    margin-bottom: 0.5rem; // Spacing between text and social icons
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .social-icons {
     display: flex;
-    justify-content: center; // Center social icons
-    gap: 1rem; // Spacing between icons
+    justify-content: center;
+    gap: 1rem;
 
     .social-icon {
-      font-size: 1.5rem; // Size of social icons
-      color: #007bff; // Primary color for icons
-      transition: color 0.3s ease; // Smooth color transition
+      font-size: 1.5rem;
+      color: #007bff;
+      transition: color 0.3s ease;
 
       &:hover {
-        color: #0056b3; // Darker shade on hover
+        color: #0056b3;
       }
     }
   }

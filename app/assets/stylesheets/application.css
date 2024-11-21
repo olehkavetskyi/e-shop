@@ -19,7 +19,6 @@
 
 @import 'header.scss';
 @import 'footer.scss';
-/* app/assets/stylesheets/application.css */
 
 html, body {
     height: 100%; /* Full height for the html and body */

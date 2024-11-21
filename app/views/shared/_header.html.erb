@@ -16,7 +16,7 @@
             <ul class="dropdown-menu" aria-labelledby="category_<%= category.id %>">
               <% category.subcategories.each do |subcategory| %>
                 <li>
-                  <%= link_to subcategory.name, section_products_path(subcategory.name), class: "dropdown-item" %>
+                  <%= link_to subcategory.name, category_products_path(subcategory.name), class: "dropdown-item" %>
                 </li>
               <% end %>
             </ul>

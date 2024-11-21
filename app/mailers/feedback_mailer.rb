@@ -1,5 +1,5 @@
 class FeedbackMailer < ApplicationMailer
-  default to: 'olehkavetskyi@gmail.com' # Replace with the recipient's email
+  default to: 'olehkavetskyi@gmail.com'
 
   def feedback_email(params)
     @name = params[:name]

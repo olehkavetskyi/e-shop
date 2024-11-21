@@ -3,7 +3,7 @@
 <div class="row">
   <!-- Left Side Panel for Sorting by Price and Brand -->
   <div class="col-md-3">
-    <%= render 'filter_sidebar' %> <!-- Adjust this path to match your partial -->
+    <%= render 'filter_sidebar' %>
   </div>
 
   <!-- Products Grid -->
@@ -11,7 +11,7 @@
     <div class="products-page">
       <div class="row">
         <% @products.each do |product| %>
-          <div class="col-md-4 mb-4"> <!-- Change col-md-4 to your desired size -->
+          <div class="col-md-4 mb-4">
             <div class="product-card">
               <% if product.image.attached? %>
                 <%= image_tag product.image, class: 'card-img-top', alt: product.name %>
@@ -23,7 +23,7 @@
                 <p class="card-text">Price: $<%= product.price %></p>
                 <p class="card-text">Brand: <%= product.brand %></p>
                 <p class="card-text">Stock: <%= product.stock %></p>
-                <%= link_to 'View Product', show_product_products_path(section: product.category.name, id: product.id), class: 'btn btn-primary' %>
+                <%= link_to 'View Product', show_product_products_path(category: product.category.name, id: product.id), class: 'btn btn-primary' %>
               </div>
             </div>
           </div>
