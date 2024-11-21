@@ -24,11 +24,11 @@
 
   <!-- Like/Dislike Buttons -->
   <div class="comment-actions mt-2">
-    <%= button_to '👍 Like', like_product_comment_path(@product, comment), method: :post, remote: true, class: 'btn btn-light btn-sm' %>
-    <span><%= comment.likes_count %> Likes</span>
+    <%= button_to '👍 Like', like_product_comment_path(@product, comment), method: :post, remote: true, class: "btn btn-light btn-sm btn-like" %>
+    <span id="comment-<%= comment.id %>-likes-count"><%= comment.likes_count %></span>
 
-    <%= button_to '👎 Dislike', dislike_product_comment_path(@product, comment), method: :post, remote: true, class: 'btn btn-light btn-sm' %>
-    <span><%= comment.dislikes_count %> Dislikes</span>
+    <%= button_to '👎 Dislike', dislike_product_comment_path(@product, comment), method: :post, remote: true, class: "btn btn-light btn-sm btn-dislike" %>
+    <span id="comment-<%= comment.id %>-dislikes-count"><%= comment.dislikes_count %></span>
 
     <!-- Reply Button - Visible only to authorized users -->
     <% if user_signed_in? %>

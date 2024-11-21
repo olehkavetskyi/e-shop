@@ -42,6 +42,8 @@
     gap: 1rem;
     margin-top: 0.75rem;
 
+
+
     .btn-light {
       border: 1px solid #ddd;
       background-color: #fff;
@@ -54,6 +56,17 @@
         background-color: #f7f7f7;
       }
     }
+
+    .liked {
+      background-color: #0071e3;  /* Blue color for liked */
+      color: white;
+    }
+
+    .disliked {
+      background-color: #d9534f;  /* Red color for disliked */
+      color: white;
+    }
+
 
     .reply-btn {
       color: #0071e3;

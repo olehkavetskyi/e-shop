@@ -1,2 +1,15 @@
+// Update like and dislike count
 $("#comment-<%= @comment.id %>-likes-count").text("<%= @comment.likes_count %>");
 $("#comment-<%= @comment.id %>-dislikes-count").text("<%= @comment.dislikes_count %>");
+
+// Update the like/dislike button colors
+$(".btn-like, .btn-dislike").removeClass("liked disliked"); // Reset any previously applied classes
+
+// Add classes for active buttons based on the user's reaction
+<% if @comment.comment_likes.exists?(user: current_user, like: true) %>
+$("#comment-<%= @comment.id %> .btn-like").addClass("liked");
+<% end %>
+
+<% if @comment.comment_likes.exists?(user: current_user, like: false) %>
+$("#comment-<%= @comment.id %> .btn-dislike").addClass("disliked");
+<% end %>

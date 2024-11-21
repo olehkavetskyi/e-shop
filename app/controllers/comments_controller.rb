@@ -25,28 +25,32 @@ class CommentsController < ApplicationController
   end
 
   def like
-    @comment = @product.comments.find(params[:id])
-    if update_like_status(true)
-      respond_to do |format|
-        format.js { render 'reaction' } # Render reaction.js.erb for AJAX update
-      end
-    else
-      respond_to do |format|
-        format.js { render 'reaction_error' } # Optionally handle errors
-      end
+    @comment = Comment.find(params[:id])
+    existing_like = @comment.comment_likes.find_by(user: current_user)
+
+    if existing_like.nil? || existing_like.like != true
+      # Add or update like status
+      existing_like = @comment.comment_likes.find_or_initialize_by(user: current_user)
+      existing_like.update(like: true)
+    end
+
+    respond_to do |format|
+      format.js { render 'reaction' }
     end
   end
 
   def dislike
-    @comment = @product.comments.find(params[:id])
-    if update_like_status(false)
-      respond_to do |format|
-        format.js { render 'reaction' } # Render reaction.js.erb for AJAX update
-      end
-    else
-      respond_to do |format|
-        format.js { render 'reaction_error' }
-      end
+    @comment = Comment.find(params[:id])
+    existing_dislike = @comment.comment_likes.find_by(user: current_user)
+
+    if existing_dislike.nil? || existing_dislike.like != false
+      # Add or update dislike status
+      existing_dislike = @comment.comment_likes.find_or_initialize_by(user: current_user)
+      existing_dislike.update(like: false)
+    end
+
+    respond_to do |format|
+      format.js { render 'reaction' }
     end
   end
 

@@ -62,7 +62,7 @@
                   <%= form.text_area :content, class: "form-control" %>
                 </div>
                 <div class="rating-stars">
-                  <% (1..5).each do |star| %>
+                  <% (1..5).to_a.reverse.each do |star| %>
                     <%= form.radio_button :rating, star, id: "star-#{star}", class: "star-input" %>
                     <label for="star-<%= star %>" class="star-label">★</label>
                   <% end %>
