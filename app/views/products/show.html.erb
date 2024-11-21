@@ -80,30 +80,8 @@
           <!-- Comments List -->
           <h2 class="comments-title mt-5">Comments</h2>
           <div id="comments-list">
-            <% if @comments.any? %>
-              <% @comments.each do |comment| %>
-                <div class="comment-box mb-3" id="comment-<%= comment.id %>">
-                  <div class="comment-user">
-                    <strong><%= comment.user&.username || "Anonymous" %>:</strong>
-                    <span class="comment-date"><%= comment.created_at.strftime("%B %d, %Y") %></span>
-                  </div>
-
-                  <!-- Display Rating (if available) -->
-                  <% if comment.rating.present? %>
-                    <div class="comment-rating">
-                      <% (1..5).each do |star| %>
-                        <span class="star"><%= star <= comment.rating ? "★" : "☆" %></span>
-                      <% end %>
-                    </div>
-                  <% end %>
-
-                  <div class="comment-content">
-                    <p><%= comment.content %></p>
-                  </div>
-                </div>
-              <% end %>
-            <% else %>
-              <p>No comments yet. Be the first to share your thoughts!</p>
+            <% @comments.each do |comment| %>
+              <%= render partial: 'comments/comment', locals: { comment: comment } %>
             <% end %>
           </div>
         </div>
