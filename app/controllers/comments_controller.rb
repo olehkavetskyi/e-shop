@@ -1,54 +1,47 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :like, :dislike]
-  before_action :set_product, only: [:create]
+  before_action :set_product, only: [:create, :like, :dislike]
   before_action :set_section, only: [:create]
 
   def create
-    @product = Product.find(params[:product_id])
     @section = params[:section] || 'default_section'
-
-    # Check if the user has already rated the product (one rating per product per user)
-    if @product.comments.exists?(user: current_user) && comment_params[:rating].present?
-      respond_to do |format|
-        format.js { render 'rating_error' }  # Renders error JS response if rating already exists
-      end
-      return
-    end
 
     # Build the comment with user and product association
     @comment = @product.comments.build(comment_params.merge(user: current_user))
 
+    # Check if it's a reply and set the parent_id
+    @comment.parent_id = params[:comment][:parent_id] if params[:comment][:parent_id].present?
+
     if @comment.save
       @product.update_rating! if @comment.rating.present?
       respond_to do |format|
-        format.js { render 'comment_create' }  # Renders JS to display the new comment
+        format.js { render 'comment_create' } # Render JS to display the new comment
       end
     else
       respond_to do |format|
-        format.js { render 'comment_error' }  # Renders error JS if comment couldn't be saved
+        format.js { render 'comment_error' } # Render error JS if comment couldn't be saved
       end
     end
   end
 
-
   def like
-    @comment = Comment.find(params[:id])
+    @comment = @product.comments.find(params[:id])
     if update_like_status(true)
       respond_to do |format|
-        format.js { render 'reaction' }  # Renders reaction.js.erb for AJAX update
+        format.js { render 'reaction' } # Render reaction.js.erb for AJAX update
       end
     else
       respond_to do |format|
-        format.js { render 'reaction_error' }  # Optionally, handle errors with a different partial or message
+        format.js { render 'reaction_error' } # Optionally handle errors
       end
     end
   end
 
   def dislike
-    @comment = Comment.find(params[:id])
+    @comment = @product.comments.find(params[:id])
     if update_like_status(false)
       respond_to do |format|
-        format.js { render 'reaction' }
+        format.js { render 'reaction' } # Render reaction.js.erb for AJAX update
       end
     else
       respond_to do |format|
@@ -57,11 +50,10 @@ class CommentsController < ApplicationController
     end
   end
 
-
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :rating)
+    params.require(:comment).permit(:content, :rating, :parent_id)
   end
 
   def set_product

@@ -6,17 +6,28 @@ class RatingsController < ApplicationController
     @category = Category.find_by!(name: params[:category])
     @product = @category.products.find(params[:id])
 
-    # Initialize the rating for the product
-    @rating = @product.ratings.new(rating_params)
-    @rating.user = current_user
+    # Check if the user has already rated this product
+    existing_rating = @product.ratings.find_by(user: current_user)
 
-    if @rating.save
-      # Recalculate the product's average rating
-      @product.update_rating!
-      redirect_to product_path(@category, @product), notice: 'Rating submitted successfully!'
+    if existing_rating
+      # Update the existing rating
+      if existing_rating.update(rating_params)
+        @product.update_rating!
+        redirect_to product_path(@category, @product), notice: 'Your rating has been updated!'
+      else
+        redirect_to product_path(@category, @product), alert: existing_rating.errors.full_messages.to_sentence
+      end
     else
-      # Provide detailed feedback on the failure
-      redirect_to product_path(@category, @product), alert: @rating.errors.full_messages.to_sentence
+      # Create a new rating
+      @rating = @product.ratings.new(rating_params)
+      @rating.user = current_user
+
+      if @rating.save
+        @product.update_rating!
+        redirect_to product_path(@category, @product), notice: 'Rating submitted successfully!'
+      else
+        redirect_to product_path(@category, @product), alert: @rating.errors.full_messages.to_sentence
+      end
     end
   end
 

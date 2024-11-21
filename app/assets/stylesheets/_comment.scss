@@ -4,21 +4,28 @@
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeaea;
 
   .comment-user {
     font-weight: bold;
     font-size: 1.1rem;
     color: #222;
+
     .comment-date {
       font-size: 0.9rem;
       color: #888;
+      margin-left: 0.5rem;
     }
   }
 
   .comment-rating {
+    margin-top: 0.5rem;
+
     .star {
       font-size: 1.2rem;
       color: #ffcc00;
+      margin-right: 0.1rem;
     }
   }
 
@@ -26,22 +33,33 @@
     margin-top: 0.5rem;
     font-size: 1rem;
     color: #333;
+    line-height: 1.5;
   }
 
   .comment-actions {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-top: 0.75rem;
 
     .btn-light {
       border: 1px solid #ddd;
+      background-color: #fff;
+      color: #555;
+      border-radius: 5px;
+      font-size: 0.9rem;
+
       &:hover {
         border-color: #333;
+        background-color: #f7f7f7;
       }
     }
 
     .reply-btn {
       color: #0071e3;
+      cursor: pointer;
+      font-size: 0.9rem;
+
       &:hover {
         text-decoration: underline;
       }
@@ -50,16 +68,51 @@
 
   .reply-form {
     margin-top: 1rem;
+    padding-left: 20px; // Align reply forms with nested replies
+
     .form-group {
       margin-bottom: 0.75rem;
+
+      textarea {
+        font-size: 0.9rem;
+        border-radius: 5px;
+      }
     }
 
     .btn-primary {
       background-color: #0071e3;
       border: none;
+      color: #fff;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+
       &:hover {
         background-color: #005bb5;
       }
     }
   }
+
+  // Nested Comments Styling
+  .nested-comments {
+    margin-left: 20px; // Indentation for nested replies
+    border-left: 2px solid #eaeaea;
+    padding-left: 10px;
+
+    .comment-box {
+      background: #fcfcfc; // Slightly different background for nested comments
+      border: none;
+    }
+  }
+}
+
+// Adjust styles for parent/child comments
+.comment-box:first-child {
+  margin-top: 0;
+}
+
+// Add hover effect for comments
+.comment-box:hover {
+  border-color: #d0d0d0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

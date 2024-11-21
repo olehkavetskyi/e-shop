@@ -1,4 +1,4 @@
-<div class="comment-box">
+<div class="comment-box" id="comment-<%= comment.id %>">
   <div class="comment-user">
     <strong>
       <% if comment.parent %>
@@ -52,7 +52,7 @@
 
   <div class="comment-divider"></div>
 
-  <!-- Nested Replies -->
+  <!-- Nested Replies - ONLY display replies that are children of the current comment -->
   <div class="nested-comments">
     <% comment.replies.each do |reply| %>
       <%= render partial: "comments/comment", locals: { comment: reply } %>

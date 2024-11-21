@@ -63,7 +63,7 @@ class ProductsController < ApplicationController
       return
     end
 
-    @comments = @product.comments.order(created_at: :desc)
+    @comments = @product.comments.where(parent_id: nil).order(created_at: :desc)
     @comment = Comment.new
     @rating = Rating.new
     @user_rating = current_user ? @product.ratings.find_by(user: current_user) : nil

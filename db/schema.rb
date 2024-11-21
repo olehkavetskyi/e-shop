@@ -117,6 +117,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_14_195813) do
     t.datetime "updated_at", null: false
     t.float "average_rating"
     t.string "brand"
+    t.string "section"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

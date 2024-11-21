@@ -9,15 +9,14 @@ class Product < ApplicationRecord
   scope :by_section, ->(section) { joins(:category).where(categories: { name: section }) }
 
   # Methods
+  # Calculate the average rating based on associated ratings
   def calculate_average_rating
-    return nil if ratings.empty?
-
-    ratings.average(:value)&.round(1)
+    ratings.any? ? ratings.average(:value)&.round(1) : nil
   end
 
+  # Update the average_rating attribute with the calculated value
   def update_rating!
     new_average = calculate_average_rating
-
     update(average_rating: new_average)
   end
 end
