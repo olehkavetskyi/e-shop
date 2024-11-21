@@ -13,7 +13,12 @@ class CommentsController < ApplicationController
     @comment.parent_id = params[:comment][:parent_id] if params[:comment][:parent_id].present?
 
     if @comment.save
-      @product.update_rating! if @comment.rating.present?
+      # Handle Rating if provided
+      create_or_update_rating(params[:comment][:rating]) if params[:comment][:rating].present?
+
+      # Update product rating after a new rating is added
+      @product.update_rating! if params[:comment][:rating].present?
+
       respond_to do |format|
         format.js { render 'comment_create' } # Render JS to display the new comment
       end
@@ -66,6 +71,18 @@ class CommentsController < ApplicationController
 
   def set_section
     @section = params[:section] || 'default_section'
+  end
+
+  def create_or_update_rating(rating_value)
+    # Find existing rating or initialize a new one
+    existing_rating = @product.ratings.find_or_initialize_by(user: current_user)
+
+    if existing_rating.new_record?
+      existing_rating.value = rating_value
+      existing_rating.save!
+    else
+      existing_rating.update(value: rating_value)
+    end
   end
 
   def redirect_with_alert(message)
