@@ -58,10 +58,12 @@
               <h3 class="add-comment-title">Add a Comment:</h3>
               <%= form_with(model: [@category, @product, Comment.new], remote: true) do |form| %>
                 <div class="form-group">
-                  <%= form.label :content, class: 'form-label' %>
-                  <%= form.text_area :content, class: "form-control" %>
+                  <%= form.label :content, "Your Comment", class: 'form-label' %>
+                  <%= form.text_area :content, class: "form-control", placeholder: "Write your comment here..." %>
                 </div>
-                <div class="rating-stars">
+
+                <!-- Rating Stars -->
+                <div class="rating-stars mt-2">
                   <% (1..5).to_a.reverse.each do |star| %>
                     <%= form.radio_button :rating, star, id: "star-#{star}", class: "star-input" %>
                     <label for="star-<%= star %>" class="star-label">★</label>
@@ -71,12 +73,37 @@
                 <%= form.submit "Post Comment", class: "btn btn-primary mt-2 submit-comment-btn" %>
               <% end %>
             </div>
+          <% else %>
+            <p class="text-center mt-4">Please <a href="<%= new_user_session_path %>">sign in</a> to add a comment or rating.</p>
           <% end %>
 
+          <!-- Comments List -->
           <h2 class="comments-title mt-5">Comments</h2>
           <div id="comments-list">
-            <% @comments.each do |comment| %>
-              <%= render partial: 'comments/comment', locals: { comment: comment } %>
+            <% if @comments.any? %>
+              <% @comments.each do |comment| %>
+                <div class="comment-box mb-3" id="comment-<%= comment.id %>">
+                  <div class="comment-user">
+                    <strong><%= comment.user&.username || "Anonymous" %>:</strong>
+                    <span class="comment-date"><%= comment.created_at.strftime("%B %d, %Y") %></span>
+                  </div>
+
+                  <!-- Display Rating (if available) -->
+                  <% if comment.rating.present? %>
+                    <div class="comment-rating">
+                      <% (1..5).each do |star| %>
+                        <span class="star"><%= star <= comment.rating ? "★" : "☆" %></span>
+                      <% end %>
+                    </div>
+                  <% end %>
+
+                  <div class="comment-content">
+                    <p><%= comment.content %></p>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+              <p>No comments yet. Be the first to share your thoughts!</p>
             <% end %>
           </div>
         </div>

@@ -4,6 +4,7 @@ import "controllers"
 import "bootstrap"
 
 import "./packs/comments"
-import "./packs/new_product.js"
+import "./packs/new_product"
+import "./packs/tabs"
 // import './../assets/javascripts/product_image_preview'
 
