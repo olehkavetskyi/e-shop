@@ -47,7 +47,9 @@
           <div class="product-info-details mt-4">
             <h2>Product Details</h2>
             <p><%= @product.description %></p>
+            <p class="product-price">Brand: <span class="price-value"><%= @product.brand %></span></p>
             <p class="product-price">Price: <span class="price-value">$<%= @product.price %></span></p>
+            <p class="product-price">Left: <span class="price-value"><%= @product.stock %></span></p>
           </div>
         </div>
 
