@@ -1,6 +1,6 @@
 class CheckoutController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_cart, only: [:show, :comment_create]  # Define @cart before both actions
+  before_action :set_cart, only: [:show, :create]  # Define @cart before both actions
 
   def show
     @total = @cart.cart_items.sum { |item| item.product.price * item.quantity }
