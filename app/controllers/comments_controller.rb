@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :like, :dislike]
   before_action :set_product, only: [:create, :like, :dislike]
-  before_action :set_section, only: [:create]
+  before_action :set_category, only: [:create]
 
   def create
     @category = params[:category] || 'default_category'
