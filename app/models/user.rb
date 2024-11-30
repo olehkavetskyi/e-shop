@@ -1,8 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :trackable # Add modules as needed
-  # Additional validations
+         :trackable
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: ['user', 'admin'] }
