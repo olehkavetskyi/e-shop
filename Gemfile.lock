@@ -334,8 +334,6 @@ DEPENDENCIES
   jbuilder
   kaminari
   mailtrap
-  net-pop (>= 0.1.2)
-  net-protocol
   pg
   puma (>= 5.0)
   pundit

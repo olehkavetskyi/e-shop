@@ -7,10 +7,6 @@ gem "pundit"
 gem "kaminari"
 gem "stripe"
 
-gem 'net-protocol', '>= 0'
-gem 'net-pop', '>= 0.1.2'
-
-
 gem "mailtrap"
 gem "dotenv-rails", groups: [:development, :test]
 gem "bootstrap", "~> 5.3.2"
