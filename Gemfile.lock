@@ -338,7 +338,7 @@ DEPENDENCIES
   mail (= 2.8.1)
   mailtrap
   net-pop (= 0.1.2)
-  net-protocol (= 0.2.2)
+  net-protocol
   pg
   puma (>= 5.0)
   pundit

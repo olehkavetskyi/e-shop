@@ -8,7 +8,8 @@ gem "kaminari"
 gem "stripe"
 
 gem 'net-pop', '0.1.2'
-gem 'net-protocol', '0.2.2'
+
+gem 'net-protocol'
 gem 'mail', '2.8.1'
 
 gem "mailtrap"
