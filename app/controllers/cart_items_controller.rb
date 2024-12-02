@@ -17,7 +17,7 @@ class CartItemsController < ApplicationController
   def destroy
     @cart_item = @cart.cart_items.find(params[:id])
     @cart_item.destroy
-    redirect_to cart_path(@cart), notice: 'Product removed from cart.'
+    redirect_to cart_path, notice: 'Product removed from cart.'
   end
 
   def update
@@ -27,10 +27,10 @@ class CartItemsController < ApplicationController
     new_quantity = params[:quantity].to_i
     if new_quantity > 0
       @cart_item.update(quantity: new_quantity)
-      redirect_to cart_path(@cart), notice: 'Cart updated.'
+      redirect_to cart_path, notice: 'Cart updated.'
     else
       @cart_item.destroy
-      redirect_to cart_path(@cart), notice: 'Item removed from cart.'
+      redirect_to cart_path, notice: 'Item removed from cart.'
     end
   end
 
